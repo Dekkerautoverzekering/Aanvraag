@@ -720,13 +720,63 @@ toggleOpzegserviceDetails();
             <option value="zeggenschap">Noteer de personen die feitelijk zeggenschap uitoefenen over de organisatie.</option>
         </select>
     </div>
-
-    <!-- Dynamische invoer voor belanghebbenden -->
+                <h3>UBO verklaring </h3>
+				<h4> belanghebbende 1 </h4>
+                <div class="form-group">
+                    <label>Voorletter(s) en achternaam</label>
+                    <input type="text" placeholder="Naam belanghebbende">
+                </div>
+                <div class="form-group">
+                    <label>Adres</label>
+                    <input type="text" placeholder="Adres">
+                </div>
+                <div class="form-group">
+                    <label>Postcode en woonplaats</label>
+                    <input type="text" placeholder="Postcode en woonplaats">
+                </div>
+                <div class="form-group">
+                    <label>Geboortedatum</label>
+                    <input type="date">
+                </div>
+								<h4> belanghebbende 2 </h4>
+                <div class="form-group">
+                    <label>Voorletter(s) en achternaam</label>
+                    <input type="text" placeholder="Naam belanghebbende">
+                </div>
+                <div class="form-group">
+                    <label>Adres</label>
+                    <input type="text" placeholder="Adres">
+                </div>
+                <div class="form-group">
+                    <label>Postcode en woonplaats</label>
+                    <input type="text" placeholder="Postcode en woonplaats">
+                </div>
+                <div class="form-group">
+                    <label>Geboortedatum</label>
+                    <input type="date">
+                </div>
+								<h4> belanghebbende 3 </h4>
+                <div class="form-group">
+                    <label>Voorletter(s) en achternaam</label>
+                    <input type="text" placeholder="Naam belanghebbende">
+                </div>
+                <div class="form-group">
+                    <label>Adres</label>
+                    <input type="text" placeholder="Adres">
+                </div>
+                <div class="form-group">
+                    <label>Postcode en woonplaats</label>
+                    <input type="text" placeholder="Postcode en woonplaats">
+                </div>
+                <div class="form-group">
+                    <label>Geboortedatum</label>
+                    <input type="date">
+                </div>
+				  <!-- Dynamische invoer voor belanghebbenden -->
     <div class="form-group">
-        <label for="aantal-belanghebbenden">Hoeveel uiteindelijk belanghebbenden heeft dit bedrijf?</label>
+        <label for="aantal-belanghebbenden">Indien meer dan 3 belanghebbenden, graag het totaal aantal en de gegevens van deze personen</label>
         <input type="number" id="aantal-belanghebbenden" name="aantal-belanghebbenden" min="1" max="10">
     </div>
-
     <div id="belanghebbenden-info"></div>
 </div>
 
@@ -785,7 +835,7 @@ function updateBelanghebbendenInfo() {
         addressInput.id = `belanghebbende-${i}-adres`;
 
         const postalCodeLabel = document.createElement('label');
-        postalCodeLabel.textContent = `Belanghebbende ${i} Postcode:`;
+        postalCodeLabel.textContent = `Belanghebbende ${i} Postcode en Woonplaats:`;
         const postalCodeInput = document.createElement('input');
         postalCodeInput.type = 'text';
         postalCodeInput.name = `belanghebbende-${i}-postcode`;
