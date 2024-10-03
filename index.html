@@ -884,8 +884,7 @@ toggleupdateBelanghebbendenInfo();
         <textarea id="failliet-text" name="failliet-text"></textarea>
     </div>
 </div>
-
-	                <div class="form-group">
+                <div class="form-group">
                     <label>Heeft u in de laatste 8 jaar een rijverbod of een rijontzegging gehad?</label>
                    <div class="switch">
         <input type="radio" id="rijontzegging-yes" name="rijontzegging" value="yes">
@@ -897,20 +896,7 @@ toggleupdateBelanghebbendenInfo();
         <textarea id="rijontzegging-text" name="rijontzegging-text"></textarea>
 </div>
 </div>
-                <div class="form-group">
-                    <label>Bent u, of is een andere belanghebbende, in de afgelopen 8 jaar betrokken (geweest) bij verzekeringsfraude of opzettelijke misleiding van een financiële instelling?</label>
-                   <div class="switch">
-        <input type="radio" id="fraude-yes" name="fraude" value="yes">
-        <label for="fraude-yes" class="switch-label">Ja</label>
 
-        <input type="radio" id="fraude-no" name="fraude" value="no">
-        <label for="fraude-no" class="switch-label">Nee</label>
-    </div>
-    <div id="fraude-info" class="additional-info">
-        <label for="fraude-text">Toelichting:</label>
-        <textarea id="fraude-text" name="fraude-text"></textarea>
-</div>
-</div>
                 <div class="form-group">
                     <label>Hebt u, of een andere belanghebbende, in de laatste 5 jaar voor het sluiten van deze verzekering een conflict gehad waarbij juridische hulp nodig was?</label>
 					<div class="switch">	
@@ -926,20 +912,6 @@ toggleupdateBelanghebbendenInfo();
 				</div>
 				</div>
                 <div class="form-group">
-                    <label>Heeft de deurwaarder op dit moment beslag gelegd op inkomsten of bezittingen van u of een andere belanghebbende? Of op het te verzekeren risico of andere eigendommen?</label>
-                   <div class="switch">
-        <input type="radio" id="beslag-yes" name="beslag" value="yes">
-        <label for="beslag-yes" class="switch-label">Ja</label>
-
-        <input type="radio" id="beslag-no" name="beslag" value="no">
-        <label for="beslag-no" class="switch-label">Nee</label>
-    </div>
-    <div id="beslag-info" class="additional-info">
-        <label for="beslag-text">Toelichting:</label>
-        <textarea id="beslag-text" name="beslag-text"></textarea>
-</div>
-				</div>
-                <div class="form-group">
                     <label>Heeft u verder iets mede te delen over het te verzekeren risico, uzelf of een andere belanghebbende, dat (eventueel) voor de beoordeling van belang zou kunnen zijn?</label>
                    <div class="switch">
 				   <input type="radio" id="meer-informatie-yes" name="meer-informatie" value="yes">
@@ -949,6 +921,8 @@ toggleupdateBelanghebbendenInfo();
 					          <div id="meer-informatie-info" class="additional-info">
         <label for="meer-informatie-text">Toelichting:</label>
         <textarea id="meer-informatie-text" name="meer-informatie-text"></textarea>
+		</div>
+</div>
 
 			<script>
 			document.addEventListener('DOMContentLoaded', function() {
@@ -970,10 +944,10 @@ toggleupdateBelanghebbendenInfo();
     toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
     toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
     toggleAdditionalInfo('failliet', 'failliet-info');
+	toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
     toggleAdditionalInfo('fraude', 'fraude-info');
     toggleAdditionalInfo('conflict', 'conflict-info');
     toggleAdditionalInfo('beslag', 'beslag-info');
-    toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
     toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
 }); 
 </script> 
