@@ -689,55 +689,53 @@ toggleOpzegservice();
 toggleOpzegserviceDetails();
 </script>
 <div class="form-group">
-        <label for="aanschaf">Heeft u de auto particulier of zakelijk aangeschaft?</label>
-        <div class="switch">
-            <input type="radio" id="particulier" name="aanschaf" value="particulier" checked>
-            <label for="particulier"class="switch-label">Particulier</label>
-            <input type="radio" id="zakelijk" name="aanschaf" value="zakelijk">
-            <label for="zakelijk"class="switch-label">Zakelijk</label>
-        </div>
+    <label for="aanschaf">Heeft u de auto particulier of zakelijk aangeschaft?</label>
+    <div class="switch">
+        <input type="radio" id="particulier" name="aanschaf" value="particulier" checked>
+        <label for="particulier" class="switch-label">Particulier</label>
+        <input type="radio" id="zakelijk" name="aanschaf" value="zakelijk">
+        <label for="zakelijk" class="switch-label">Zakelijk</label>
+    </div>
+</div>
+
+<!-- Conditional content for Zakelijk -->
+<div id="zakelijk-info" class="conditional" style="display: none;">
+    <div class="form-group">
+        <label for="rechtsvorm">Rechtsvorm:</label>
+        <select id="rechtsvorm" name="rechtsvorm">
+            <option value="bv">Besloten Vennootschap (BV)</option>
+            <option value="zzp">Eenmanszaak (ZZP)</option>
+            <option value="nv">Naamloze Vennootschap (NV)</option>
+            <option value="stichting">Stichting/Vereniging</option>
+            <option value="anders">Anders</option>
+        </select>
     </div>
 
-    <!-- Conditional content for Zakelijk -->
-    <div id="zakelijk-info" class="conditional" style="display: none;">
-        <div class="form-group">
-            <label for="rechtsvorm">Rechtsvorm:</label>
-            <select id="rechtsvorm" name="rechtsvorm">
-                <option value="bv">Besloten Vennootschap (BV)</option>
-                <option value="zzp">Eenmanszaak (ZZP)</option>
-                <option value="nv">Naamloze Vennootschap (NV)</option>
-                <option value="stichting">Stichting/Vereniging</option>
-                <option value="anders">Anders</option>
-            </select>
-        </div>
+    <div class="form-group" id="rechtsvorm-omschrijving-container" style="display: none;">
+        <label for="rechtsvorm-omschrijving">Geef aan wat van toepassing is:</label>
+        <select id="rechtsvorm-omschrijving" name="rechtsvorm-omschrijving">
+            <option value="ubo-eenmanszaak">Betreft een eenmanszaak, vul uw gegevens hieronder in (UBO).</option>
+            <option value="ubo-belang">Uiteindelijk belanghebbende(n) met een belang van 25% of meer. Noteer onderstaand wie deze uiteindelijk belanghebbenden zijn.</option>
+            <option value="geen-ubo">Geen belanghebbende(n) van 25% of meer.</option>
+            <option value="zeggenschap">Noteer de personen die feitelijk zeggenschap uitoefenen over de organisatie.</option>
+        </select>
+    </div>
 
-        <div id="zakelijk-info" class="conditional" style="display: none;">
-            <div class="form-group">
-                <label for="rechtsvorm-omschrijving">Geef aan wat van toepassing is:</label>
-                              <select id="rechtsvorm-omschrijving" name="rechtsvorm-omschrijving">
-                                <option value="ubo-eenmanszaak">Betreft een eenmanszaak, vul uw gegevens hieronder in (UBO).</option>
-                                <option value="ubo-belang">De organisatie is geen VVE of andere Vereniging, Stichting, Kerkgenootschap, Coöperatie of Onderlinge Waarborgmaatschappij (OWM) maar heeft uiteindelijk belanghebbende(n) met een belang van 25% of meer. Noteer onderstaand (UBO) wie deze uiteindelijk belanghebbenden zijn.</option>
-                                <option value="geen-ubo">De organisatie is geen VVE of andere Vereniging, Stichting, Kerkgenootschap, Coöperatie of Onderlinge Waarborgmaatschappij (OWM) maar heeft geen uiteindelijk belanghebbende(n) belang van 25% of meer.</option>
-                                <option value="zeggenschap">De organisatie is geen VVE of andere Vereniging, Stichting, Kerkgenootschap, Coöperatie of Onderlinge Waarborgmaatschappij (OWM). Noteer dan de personen die feitelijk zeggenschap uitoefenen over de organisatie. Meestal zijn dit de bestuurders en/of vertegenwoordigers.</option>
-                            </select>
-                        </div>
+    <!-- Dynamische invoer voor belanghebbenden -->
+    <div class="form-group">
+        <label for="aantal-belanghebbenden">Hoeveel uiteindelijk belanghebbenden heeft dit bedrijf?</label>
+        <input type="number" id="aantal-belanghebbenden" name="aantal-belanghebbenden" min="1" max="10">
+    </div>
 
-    <div id="belanghebbenden-container" class="conditional">
-        <div class="form-group">
-            <label for="aantal-belanghebbenden">Hoeveel uiteindelijk belanghebbenden heeft dit bedrijf?</label>
-            <input type="number" id="aantal-belanghebbenden" name="aantal-belanghebbenden" min="1" max="10">
-        </div>
+    <div id="belanghebbenden-info"></div>
+</div>
 
-        <div id="belanghebbenden-info"></div>
-				</div>
-			<script>
-			// Elementen selecteren
+<script>
+// Elementen selecteren
 const particulierRadio = document.getElementById('particulier');
 const zakelijkRadio = document.getElementById('zakelijk');
 const zakelijkInfo = document.getElementById('zakelijk-info');
 const rechtsvormSelect = document.getElementById('rechtsvorm');
-const rechtsvormAnders = document.getElementById('rechtsvorm-anders');
-const rechtsvormOmschrijvingSelect = document.getElementById('rechtsvorm-omschrijving');
 const rechtsvormOmschrijvingContainer = document.getElementById('rechtsvorm-omschrijving-container');
 const aantalBelanghebbendenInput = document.getElementById('aantal-belanghebbenden');
 const belanghebbendenInfo = document.getElementById('belanghebbenden-info');
@@ -748,7 +746,6 @@ function toggleZakelijkInfo() {
         zakelijkInfo.style.display = 'block';
     } else {
         zakelijkInfo.style.display = 'none';
-        rechtsvormAnders.style.display = 'none';
         rechtsvormOmschrijvingContainer.style.display = 'none';
         belanghebbendenInfo.innerHTML = '';  // Verwijder bestaande belanghebbendenvelden
     }
@@ -758,16 +755,9 @@ function toggleZakelijkInfo() {
 function toggleRechtsvormOmschrijving() {
     const selectedValue = rechtsvormSelect.value;
     if (selectedValue === 'anders') {
-        rechtsvormAnders.style.display = 'block';
-    } else {
-        rechtsvormAnders.style.display = 'none';
-    }
-
-    if (selectedValue === 'zzp' || selectedValue === 'bv' || selectedValue === 'nv' || selectedValue === 'stichting' || selectedValue === 'anders') {
         rechtsvormOmschrijvingContainer.style.display = 'block';
     } else {
-        rechtsvormOmschrijvingContainer.style.display = 'none';
-        belanghebbendenInfo.innerHTML = '';  // Verwijder bestaande belanghebbendenvelden
+        rechtsvormOmschrijvingContainer.style.display = 'block'; // Toon de selectie afhankelijk van de keuze
     }
 }
 
@@ -829,12 +819,8 @@ aantalBelanghebbendenInput.addEventListener('input', updateBelanghebbendenInfo);
 
 // Initial call to set correct visibility based on default selection
 toggleZakelijkInfo();
-toggleRechtsvormOmschrijving();
-toggleupdateBelanghebbendenInfo(); 
-</script> 
-        </div>
-    </div>
-	</div>
+</script>
+</div>
             <!-- Step 4 -->
 <div class="step-content" id="step4">
     <div class="form-group">
@@ -1383,4 +1369,3 @@ clearButton.addEventListener('click', function() {
 </script>
 </body>
 </html>
-
