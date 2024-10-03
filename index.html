@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aanvraagformulier Dekkerautoverzekering</title>
-	    <link rel="icon" href="Logo.png" type="image/png">
+	    <link rel="icon" href="C:\Users\Randy\OneDrive\Bureaublad\Klaas Vis\Nieuwste programma\logo.png" type="image/png">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -436,7 +436,7 @@ button:hover {
 </head>
 <body>
     <div class="logo">
-        <img src="AfbeeldingDekker.png" alt="Dekkerautoverzekering"> <!-- Voeg hier de naam van jouw logo bestand in -->
+        <img src="C:\Users\Randy\OneDrive\Bureaublad\Klaas Vis\Nieuwste programma\AfbeeldingDekker.png" alt="Dekkerautoverzekering"> <!-- Voeg hier de naam van jouw logo bestand in -->
     </div>
 
     <div class="form-container">
@@ -885,6 +885,19 @@ toggleupdateBelanghebbendenInfo();
     </div>
 </div>
                 <div class="form-group">
+                    <label>Heeft de deurwaarder op dit moment beslag gelegd op inkomsten of bezittingen van u of een andere belanghebbende? Of op het te verzekeren risico of andere eigendommen?</label>
+                   <div class="switch">
+        <input type="radio" id="beslag-yes" name="beslag" value="yes">
+        <label for="beslag-yes" class="switch-label">Ja</label>
+
+        <input type="radio" id="beslag-no" name="beslag" value="no">
+        <label for="beslag-no" class="switch-label">Nee</label>
+    </div>
+    <div id="beslag-info" class="additional-info">
+        <label for="beslag-text">Toelichting:</label>
+        <textarea id="beslag-text" name="beslag-text"></textarea>
+</div>
+                <div class="form-group">
                     <label>Heeft u in de laatste 8 jaar een rijverbod of een rijontzegging gehad?</label>
                    <div class="switch">
         <input type="radio" id="rijontzegging-yes" name="rijontzegging" value="yes">
@@ -1008,7 +1021,6 @@ toggleupdateBelanghebbendenInfo();
     </script>
 </div>
     <!-- Aanvraag indienen knop -->
-    <!-- Aanvraag indienen knop -->
     <button class="submit-button" onclick="showModal()">Aanvraag indienen</button>
 <button id="downloadFormButton" style="display:block; margin:20px auto; background-color:blue; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">
     Aanvraagformulier downloaden
@@ -1065,7 +1077,6 @@ function generatePDF() {
             </div>
         </div>
     </div>
-
 
     <!-- Resultaat bericht -->
     <div id="resultMessage" class="modal">
