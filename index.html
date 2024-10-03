@@ -885,6 +885,17 @@ toggleupdateBelanghebbendenInfo();
     </div>
 </div>
 
+	                <div class="form-group">
+                    <label>Heeft u in de laatste 8 jaar een rijverbod of een rijontzegging gehad?</label>
+                   <div class="switch">
+        <input type="radio" id="rijontzegging-yes" name="rijontzegging" value="yes">
+        <label for="rijontzegging-yes" class="switch-label">Ja</label>
+        <input type="radio" id="rijontzegging-no" name="rijontzegging" value="no">
+        <label for="rijontzegging-no" class="switch-label">Nee</label>
+    <div id="rijontzegging-info" class="additional-info">
+        <label for="rijontzegging-text">Toelichting:</label>
+        <textarea id="rijontzegging-text" name="rijontzegging-text"></textarea>
+</div>
                 <div class="form-group">
                     <label>Bent u, of is een andere belanghebbende, in de afgelopen 8 jaar betrokken (geweest) bij verzekeringsfraude of opzettelijke misleiding van een financiële instelling?</label>
                    <div class="switch">
@@ -961,6 +972,7 @@ toggleupdateBelanghebbendenInfo();
     toggleAdditionalInfo('fraude', 'fraude-info');
     toggleAdditionalInfo('conflict', 'conflict-info');
     toggleAdditionalInfo('beslag', 'beslag-info');
+    toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
     toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
 }); 
 </script> 
