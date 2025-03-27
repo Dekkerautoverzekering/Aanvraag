@@ -293,7 +293,7 @@
 <body>
     <div class="logo">
         <img src="AfbeeldingDekker.png" alt="Dekkerautoverzekering">
-        <h2>Online aanvraagformulier</h2>
+        <h2> Aanvraagformulier</h2>
     </div>
 
     <div class="form-container">
@@ -823,178 +823,263 @@
         </form>
     </div>
 
-    <script>
-        // Formulier navigatie
-        let currentStep = 0;
-        showStep(currentStep);
+<script>
+// Initialiseer SignaturePad
+var canvas = document.getElementById('signature-pad');
+var signaturePad = new SignaturePad(canvas);
+document.getElementById('clear-signature').addEventListener('click', function() {
+    signaturePad.clear();
+});
 
-        function showStep(n) {
-            let steps = document.getElementsByClassName("step-content");
-            steps[n].style.display = "block";
-            if (n == 0) {
-                document.getElementById("prevBtn").style.display = "none";
+// Modal functies
+function showModal() {
+    document.getElementById('confirmationModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('confirmationModal').style.display = 'none';
+    document.getElementById('resultMessage').style.display = 'none';
+}
+
+// Verstuur formulier via EmailJS
+function submitForm() {
+    const form = document.getElementById('insurance-form');
+    const formData = new FormData(form);
+    let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
+
+    // Verzamel alle formuliergegevens
+    for (let [key, value] of formData.entries()) {
+        if (value && value !== 'on') {
+            emailBody += `${key}: ${value}\n`;
+        }
+    }
+
+    // Voeg de handtekening toe
+    const signatureData = signaturePad.toDataURL('image/png');
+    if (!signaturePad.isEmpty()) {
+        emailBody += `\nDigitale handtekening (base64): ${signatureData}\n`;
+    } else {
+        emailBody += "\nGeen handtekening toegevoegd.\n";
+    }
+
+    // Verstuur via EmailJS
+    emailjs.send("service_wke8swi", "template_igkvytp", {
+        message: emailBody
+    })
+    .then(() => {
+        document.getElementById('resultText').innerHTML = `
+            <strong>Uw aanvraag is verzonden!</strong><br><br>
+            Wij danken u voor het in ons gestelde vertrouwen.<br><br>
+            Heeft u het online aanvraagformulier volledig ingevuld, dan is uw auto per gewenste ingangsdatum in voorlopige dekking genomen en ontvangt u binnen ca. 10 werkdagen de betreffende polisstukken.<br><br>
+            Is het online aanvraagformulier niet volledig of onjuist ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
+        `;
+        document.getElementById('resultMessage').style.display = 'block';
+        // Verberg het formulier en navigatie na succesvolle verzending
+        document.getElementById('insurance-form').style.display = 'none';
+        document.querySelector('.navigation-buttons').style.display = 'none';
+    })
+    .catch((error) => {
+        document.getElementById('resultText').innerHTML = `
+            Er is een fout opgetreden bij het verzenden: ${error.text}
+        `;
+        document.getElementById('resultMessage').style.display = 'block';
+        console.error("EmailJS fout:", error);
+    });
+}
+
+// Behandel de keuze van de gebruiker
+function handleSubmit(isConfirmed) {
+    document.getElementById('confirmationModal').style.display = 'none';
+    const resultTextElement = document.getElementById('resultText');
+
+    if (isConfirmed) {
+        submitForm();
+    } else {
+        resultTextElement.innerHTML = `
+            U kunt uw antwoorden controleren en opnieuw indienen.
+        `;
+        document.getElementById('resultMessage').style.display = 'block';
+        // Geen reset, gebruiker blijft op stap 5
+    }
+}
+
+// Koppel de submit-knop en voorkom standaardgedrag
+document.getElementById('submitBtn').addEventListener('click', function(event) {
+    event.preventDefault(); // Voorkom standaard formuliergedrag
+    showModal();
+});
+
+// Formulier navigatie
+let currentStep = 0;
+showStep(currentStep);
+
+function showStep(n) {
+    let steps = document.getElementsByClassName("step-content");
+    steps[n].style.display = "block";
+    if (n == 0) {
+        document.getElementById("prevBtn").style.display = "none";
+    } else {
+        document.getElementById("prevBtn").style.display = "inline";
+    }
+    if (n == (steps.length - 1)) {
+        document.getElementById("nextBtn").style.display = "none";
+    } else {
+        document.getElementById("nextBtn").style.display = "inline";
+    }
+    updateStepIndicator(n);
+}
+
+function nextPrev(n) {
+    let steps = document.getElementsByClassName("step-content");
+    steps[currentStep].style.display = "none";
+    currentStep = currentStep + n;
+    if (currentStep >= steps.length || currentStep < 0) {
+        currentStep = Math.min(Math.max(currentStep, 0), steps.length - 1); // Beperk tot geldige stappen
+        return false;
+    }
+    showStep(currentStep);
+}
+
+function updateStepIndicator(n) {
+    let indicators = document.getElementsByClassName("step");
+    for (let i = 0; i < indicators.length; i++) {
+        indicators[i].classList.remove("active-step");
+    }
+    indicators[n].classList.add("active-step");
+}
+
+// Conditionele velden
+document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem) => {
+    elem.addEventListener("change", function(event) {
+        const value = event.target.value;
+        const info = document.getElementById("regelmatige-bestuurder-info");
+        if (value === "no") {
+            info.classList.add("active");
+        } else {
+            info.classList.remove("active");
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const dekkingRadios = document.getElementsByName('dekking');
+    const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
+    dekkingRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'anders') {
+                dekkingOmschrijving.style.display = 'block';
             } else {
-                document.getElementById("prevBtn").style.display = "inline";
+                dekkingOmschrijving.style.display = 'none';
             }
-            if (n == (steps.length - 1)) {
-                document.getElementById("nextBtn").style.display = "none";
+        });
+    });
+
+    const schadeErvaringRadios = document.getElementsByName('schade-ervaring');
+    const schadeErvaringInfo = document.getElementById('schade-ervaring-info');
+    schadeErvaringRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'yes') {
+                schadeErvaringInfo.style.display = 'block';
             } else {
-                document.getElementById("nextBtn").style.display = "inline";
+                schadeErvaringInfo.style.display = 'none';
             }
-            updateStepIndicator(n);
-        }
+        });
+    });
 
-        function nextPrev(n) {
-            let steps = document.getElementsByClassName("step-content");
-            steps[currentStep].style.display = "none";
-            currentStep = currentStep + n;
-            if (currentStep >= steps.length || currentStep < 0) {
-                currentStep = Math.min(Math.max(currentStep, 0), steps.length - 1); // Beperk tot geldige stappen
-                return false;
+    const schadeVrijeJarenRadios = document.getElementsByName('schadevrije-jaren');
+    const schadeVrijeJarenInfo = document.getElementById('schadevrije-jaren-info');
+    schadeVrijeJarenRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'yes') {
+                schadeVrijeJarenInfo.style.display = 'block';
+            } else {
+                schadeVrijeJarenInfo.style.display = 'none';
             }
-            showStep(currentStep);
-        }
+        });
+    });
 
-        function updateStepIndicator(n) {
-            let indicators = document.getElementsByClassName("step");
-            for (let i = 0; i < indicators.length; i++) {
-                indicators[i].classList.remove("active-step");
-            }
-            indicators[n].classList.add("active-step");
-        }
+    const opzegserviceYes = document.getElementById('opzegservice-yes');
+    const opzegserviceNo = document.getElementById('opzegservice-no');
+    const opzegserviceDetails = document.getElementById('opzegservice-details');
+    opzegserviceYes.addEventListener('change', function() {
+        opzegserviceDetails.style.display = 'block';
+    });
+    opzegserviceNo.addEventListener('change', function() {
+        opzegserviceDetails.style.display = 'none';
+    });
 
-        // Conditionele velden
-        document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem) => {
-            elem.addEventListener("change", function(event) {
-                const value = event.target.value;
-                const info = document.getElementById("regelmatige-bestuurder-info");
-                if (value === "no") {
-                    info.classList.add("active");
+    const particulierRadio = document.getElementById('particulier');
+    const zakelijkRadio = document.getElementById('zakelijk');
+    const zakelijkInfo = document.getElementById('zakelijk-info');
+    particulierRadio.addEventListener('change', function() {
+        zakelijkInfo.style.display = 'none';
+    });
+    zakelijkRadio.addEventListener('change', function() {
+        zakelijkInfo.style.display = 'block';
+    });
+
+    const rechtsvormSelect = document.getElementById('rechtsvorm');
+    const rechtsvormOmschrijvingContainer = document.getElementById('rechtsvorm-omschrijving-container');
+    rechtsvormSelect.addEventListener('change', function() {
+        if (this.value === 'anders') {
+            rechtsvormOmschrijvingContainer.style.display = 'block';
+        } else {
+            rechtsvormOmschrijvingContainer.style.display = 'block';
+        }
+    });
+
+    const aantalBelanghebbendenInput = document.getElementById('aantal-belanghebbenden');
+    const belanghebbendenInfo = document.getElementById('belanghebbenden-info');
+    aantalBelanghebbendenInput.addEventListener('input', function() {
+        belanghebbendenInfo.innerHTML = '';
+        const aantal = this.value;
+        for (let i = 1; i <= aantal; i++) {
+            const container = document.createElement('div');
+            container.innerHTML = `
+                <h4>Belanghebbende ${i}</h4>
+                <div class="form-group">
+                    <label>Voorletter(s) en achternaam</label>
+                    <input type="text" name="belanghebbende-${i}-naam">
+                </div>
+                <div class="form-group">
+                    <label>Adres</label>
+                    <input type="text" name="belanghebbende-${i}-adres">
+                </div>
+                <div class="form-group">
+                    <label>Postcode en woonplaats</label>
+                    <input type="text" name="belanghebbende-${i}-postcode">
+                </div>
+                <div class="form-group">
+                    <label>Geboortedatum</label>
+                    <input type="date" name="belanghebbende-${i}-geboortedatum">
+                </div>
+            `;
+            belanghebbendenInfo.appendChild(container);
+        }
+    });
+
+    function toggleAdditionalInfo(radioGroupName, infoDivId) {
+        const radios = document.getElementsByName(radioGroupName);
+        const infoDiv = document.getElementById(infoDivId);
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'yes') {
+                    infoDiv.style.display = 'block';
                 } else {
-                    info.classList.remove("active");
+                    infoDiv.style.display = 'none';
                 }
             });
         });
+    }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const dekkingRadios = document.getElementsByName('dekking');
-            const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
-            dekkingRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'anders') {
-                        dekkingOmschrijving.style.display = 'block';
-                    } else {
-                        dekkingOmschrijving.style.display = 'none';
-                    }
-                });
-            });
-
-            const schadeErvaringRadios = document.getElementsByName('schade-ervaring');
-            const schadeErvaringInfo = document.getElementById('schade-ervaring-info');
-            schadeErvaringRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'yes') {
-                        schadeErvaringInfo.style.display = 'block';
-                    } else {
-                        schadeErvaringInfo.style.display = 'none';
-                    }
-                });
-            });
-
-            const schadeVrijeJarenRadios = document.getElementsByName('schadevrije-jaren');
-            const schadeVrijeJarenInfo = document.getElementById('schadevrije-jaren-info');
-            schadeVrijeJarenRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'yes') {
-                        schadeVrijeJarenInfo.style.display = 'block';
-                    } else {
-                        schadeVrijeJarenInfo.style.display = 'none';
-                    }
-                });
-            });
-
-            const opzegserviceYes = document.getElementById('opzegservice-yes');
-            const opzegserviceNo = document.getElementById('opzegservice-no');
-            const opzegserviceDetails = document.getElementById('opzegservice-details');
-            opzegserviceYes.addEventListener('change', function() {
-                opzegserviceDetails.style.display = 'block';
-            });
-            opzegserviceNo.addEventListener('change', function() {
-                opzegserviceDetails.style.display = 'none';
-            });
-
-            const particulierRadio = document.getElementById('particulier');
-            const zakelijkRadio = document.getElementById('zakelijk');
-            const zakelijkInfo = document.getElementById('zakelijk-info');
-            particulierRadio.addEventListener('change', function() {
-                zakelijkInfo.style.display = 'none';
-            });
-            zakelijkRadio.addEventListener('change', function() {
-                zakelijkInfo.style.display = 'block';
-            });
-
-            const rechtsvormSelect = document.getElementById('rechtsvorm');
-            const rechtsvormOmschrijvingContainer = document.getElementById('rechtsvorm-omschrijving-container');
-            rechtsvormSelect.addEventListener('change', function() {
-                if (this.value === 'anders') {
-                    rechtsvormOmschrijvingContainer.style.display = 'block';
-                } else {
-                    rechtsvormOmschrijvingContainer.style.display = 'block';
-                }
-            });
-
-            const aantalBelanghebbendenInput = document.getElementById('aantal-belanghebbenden');
-            const belanghebbendenInfo = document.getElementById('belanghebbenden-info');
-            aantalBelanghebbendenInput.addEventListener('input', function() {
-                belanghebbendenInfo.innerHTML = '';
-                const aantal = this.value;
-                for (let i = 1; i <= aantal; i++) {
-                    const container = document.createElement('div');
-                    container.innerHTML = `
-                        <h4>Belanghebbende ${i}</h4>
-                        <div class="form-group">
-                            <label>Voorletter(s) en achternaam</label>
-                            <input type="text" name="belanghebbende-${i}-naam">
-                        </div>
-                        <div class="form-group">
-                            <label>Adres</label>
-                            <input type="text" name="belanghebbende-${i}-adres">
-                        </div>
-                        <div class="form-group">
-                            <label>Postcode en woonplaats</label>
-                            <input type="text" name="belanghebbende-${i}-postcode">
-                        </div>
-                        <div class="form-group">
-                            <label>Geboortedatum</label>
-                            <input type="date" name="belanghebbende-${i}-geboortedatum">
-                        </div>
-                    `;
-                    belanghebbendenInfo.appendChild(container);
-                }
-            });
-
-            function toggleAdditionalInfo(radioGroupName, infoDivId) {
-                const radios = document.getElementsByName(radioGroupName);
-                const infoDiv = document.getElementById(infoDivId);
-                radios.forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        if (this.value === 'yes') {
-                            infoDiv.style.display = 'block';
-                        } else {
-                            infoDiv.style.display = 'none';
-                        }
-                    });
-                });
-            }
-
-            toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
-            toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
-            toggleAdditionalInfo('failliet', 'failliet-info');
-            toggleAdditionalInfo('beslag', 'beslag-info');
-            toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
-            toggleAdditionalInfo('conflict', 'conflict-info');
-            toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
-        });
-    </script>
+    toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
+    toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
+    toggleAdditionalInfo('failliet', 'failliet-info');
+    toggleAdditionalInfo('beslag', 'beslag-info');
+    toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
+    toggleAdditionalInfo('conflict', 'conflict-info');
+    toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
+});
+</script>
 </body>
 </html>
