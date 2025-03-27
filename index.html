@@ -288,6 +288,23 @@
         .content {
             min-height: 150vh;
         }
+        .navigation-buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+    }
+    .prev-button {
+        background-color: #6c757d;
+    }
+    .terug-button {
+        background-color: #ffcc00; /* Gele kleur voor zichtbaarheid, pas aan indien gewenst */
+        margin: 0 10px; /* Ruimte links en rechts voor centrering */
+    }
+    .next-button {
+        background-color: #007BFF;
+    }
     </style>
 </head>
 <body>
@@ -304,7 +321,11 @@
                 <div class="step" id="step4-indicator">Slotvragen</div>
                 <div class="step" id="step5-indicator">Ondertekenen en indienen</div>
             </div>
-
+<div class="navigation-buttons text-center">
+    <button type="button" class="prev-button" id="prevBtn" onclick="nextPrev(-1)">Vorige</button>
+    <button type="button" class="terug-button" onclick="window.location.href='https://www.klaasvis.nl'">Terug naar Klaas Vis</button>
+    <button type="button" class="next-button" id="nextBtn" onclick="nextPrev(1)">Volgende</button>
+</div>
             <!-- Step 1 -->
             <div class="step-content active" id="step1">
                 <div class="form-group">
@@ -733,7 +754,43 @@
 
 <script>
         // Formulier navigatie
-        let currentStep = 0;
+       let currentStep = 0;
+    showStep(currentStep);
+
+    function showStep(n) {
+        let steps = document.getElementsByClassName("step-content");
+        steps[n].style.display = "block";
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (steps.length - 1)) {
+            document.getElementById("nextBtn").style.display = "none";
+        } else {
+            document.getElementById("nextBtn").style.display = "inline";
+        }
+        updateStepIndicator(n);
+    }
+
+    function nextPrev(n) {
+        let steps = document.getElementsByClassName("step-content");
+        steps[currentStep].style.display = "none";
+        currentStep = currentStep + n;
+        if (currentStep >= steps.length || currentStep < 0) {
+            currentStep = Math.min(Math.max(currentStep, 0), steps.length - 1);
+            return false;
+        }
+        showStep(currentStep);
+    }
+
+    function updateStepIndicator(n) {
+        let indicators = document.getElementsByClassName("step");
+        for (let i = 0; i < indicators.length; i++) {
+            indicators[i].classList.remove("active-step");
+        }
+        indicators[n].classList.add("active-step");
+    let currentStep = 0;
         showStep(currentStep);
 
         function showStep(n) {
