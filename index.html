@@ -975,88 +975,186 @@ toggleZakelijkInfo();
 		</div>
 </div>
 
-			<<script>
-                    // Initialiseer SignaturePad
-                    var canvas = document.getElementById('signature-pad');
-                    var signaturePad = new SignaturePad(canvas);
-                    document.getElementById('clear-signature').addEventListener('click', function() {
-                        signaturePad.clear();
-                    });
+			<script>
+			document.addEventListener('DOMContentLoaded', function() {
+    function toggleAdditionalInfo(radioGroupName, infoDivId) {
+        const radios = document.getElementsByName(radioGroupName);
+        const infoDiv = document.getElementById(infoDivId);
+        
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'yes') {
+                    infoDiv.style.display = 'block';
+                } else {
+                    infoDiv.style.display = 'none';
+                }
+            });
+        });
+    }
 
-                    // Modal functies
-                    function showModal() {
-                        document.getElementById('confirmationModal').style.display = 'block';
-                    }
+    toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
+    toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
+    toggleAdditionalInfo('failliet', 'failliet-info');
+	toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
+    toggleAdditionalInfo('fraude', 'fraude-info');
+    toggleAdditionalInfo('conflict', 'conflict-info');
+    toggleAdditionalInfo('beslag', 'beslag-info');
+    toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
+}); 
+</script> 
+                </div>
+				</div>
+            </div>
+</div>
+           <div class="step-content" id="step5">
+                <div class="form-group">
+                    <label for="ondertekenaar">Voorletter(s) en achternaam:</label>
+                    <input type="text" id="ondertekenaar" name="ondertekenaar" required>
+                </div>
 
-                    function closeModal() {
-                        document.getElementById('confirmationModal').style.display = 'none';
-                        document.getElementById('resultMessage').style.display = 'none';
-                    }
+                <div class="form-group">
+                    <label for="datum-aanvraag">Datum aanvraag:</label>
+                    <input type="date" id="datum-aanvraag" name="datum-aanvraag" required>
+                </div>
+<br>
+<br>
+                <div class="form-confirm">
+                    <label>
+                        Ik verklaar:
+                        <ul>
+                            <li>Dat de volledige tekst van alle acceptatievragen door de adviseur aan mij is voorgelegd;</li>
+                            <li>Dat mijn antwoorden juist en volledig zijn;</li>
+                            <li>Dat ik de polisvoorwaarden en verzekeringskaarten die horen bij deze verzekering heb ontvangen;</li>
+                            <li>Dat ik akkoord ga met de toepasselijkheid van de polisvoorwaarden die bij deze verzekering horen;</li>
+                            <li>Dat ik een verzekering wil sluiten volgens de dekking zoals omschreven in deze polisvoorwaarden;</li>
+                            <li>Dat ik de afgesproken premie en kosten betaal als ik de polis ontvang die volgens deze aanvraag is opgemaakt;</li>
+                            <li>Dat a.s.r. informatie over mijn schade- en verzekeringsverleden mag opvragen bij andere verzekeraars of adviseurs;</li>
+                            <li>Dat ik de personen waarvan persoonsgegevens op dit aanvraagformulier staan, heb geïnformeerd dat deze gegevens door a.s.r. worden verwerkt.</li>
+                      </ul>
+                    </label>
+					<label><strong><text-align=center>Akkoord<input type="checkbox" id="verklaring" name="verklaring" required></strong></label>
+						</div>
+						<br>
+					<div class="form-group">
+					<div class="canvas"> 
+						<br>
+							<br>
+								<br>
+								<label> <strong> Uw digitale handtekening</strong></label>
+    <canvas id="signature-pad" width="400" height="200"></canvas>
+    <button id="clear-signature">Herstel handtekening</button>
 
-                    // Verstuur formulier via EmailJS
-                    function submitForm() {
-                        const form = document.getElementById('insurance-form');
-                        const formData = new FormData(form);
-                        let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script>
+        var canvas = document.getElementById('signature-pad');
+        var signaturePad = new SignaturePad(canvas);
 
-                        // Verzamel alle formuliergegevens
-                        for (let [key, value] of formData.entries()) {
-                            if (value && value !== 'on') {
-                                emailBody += `${key}: ${value}\n`;
-                            }
-                        }
+        // Selecteer de herstel-knop
+        var clearButton = document.getElementById('clear-signature');
 
-                        // Voeg de handtekening toe
-                        const signatureData = signaturePad.toDataURL('image/png');
-                        if (!signaturePad.isEmpty()) {
-                            emailBody += `\nDigitale handtekening (base64): ${signatureData}\n`;
-                        } else {
-                            emailBody += "\nGeen handtekening toegevoegd.\n";
-                        }
+        // Voeg een klik-event listener toe aan de knop
+        clearButton.addEventListener('click', function() {
+            signaturePad.clear(); // Leegt het canvas
+        });
+    </script>
+</div>
+    <!-- Aanvraag indienen knop -->
+    <button class="submit-button" onclick="showModal()">Aanvraag indienen</button>
 
-                        // Verstuur via EmailJS
-                        emailjs.send("service_wke8swi", "template_igkvytp", {
-                            message: emailBody
-                        })
-                        .then(() => {
-                            document.getElementById('resultText').innerHTML = `
-                                <strong>Uw aanvraag is verzonden!</strong><br><br>
-                                Wij danken u voor het in ons gestelde vertrouwen.<br><br>
-                                Heeft u het online aanvraagformulier volledig ingevuld, dan is uw auto per gewenste ingangsdatum in voorlopige dekking genomen en ontvangt u binnen ca. 10 werkdagen de betreffende polisstukken.<br><br>
-                                Is het online aanvraagformulier niet volledig of onjuist ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
-                            `;
-                            document.getElementById('resultMessage').style.display = 'block';
-                            // Verberg het formulier na succesvolle verzending
-                            document.getElementById('insurance-form').style.display = 'none';
-                        })
-                        .catch((error) => {
-                            document.getElementById('resultText').innerHTML = `
-                                Er is een fout opgetreden bij het verzenden: ${error.text}
-                            `;
-                            document.getElementById('resultMessage').style.display = 'block';
-                            console.error("EmailJS fout:", error);
-                        });
-                    }
+    <script>
+document.getElementById("downloadFormButton").addEventListener("click", function() {
+    generatePDF();
+});
 
-                    // Behandel de keuze van de gebruiker
-                    function handleSubmit(isConfirmed) {
-                        document.getElementById('confirmationModal').style.display = 'none';
-                        const resultTextElement = document.getElementById('resultText');
+function generatePDF() {
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pageHeight = pdf.internal.pageSize.height;
+    let currentHeight = 0;
 
-                        if (isConfirmed) {
-                            submitForm();
-                        } else {
-                            resultTextElement.innerHTML = `
-                                U kunt uw antwoorden controleren en opnieuw indienen.
-                            `;
-                            document.getElementById('resultMessage').style.display = 'block';
-                            // Geen reset naar begin, gebruiker blijft op stap 5
-                        }
-                    }
+    const pages = document.querySelectorAll('.form-page');
 
-                    // Koppel de submit-knop
-                    document.getElementById('submitBtn').addEventListener('click', showModal);
-                </script>
+    pages.forEach((page, index) => {
+        html2canvas(page, { scale: 2 }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = 210; // A4 breedte in mm
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            if (index === 0) {
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                currentHeight = imgHeight;
+            } else {
+                if (currentHeight + imgHeight > pageHeight) {
+                    pdf.addPage();
+                    currentHeight = 0;
+                }
+                pdf.addImage(imgData, 'PNG', 0, currentHeight, imgWidth, imgHeight);
+                currentHeight += imgHeight;
+            }
+
+            if (index === pages.length - 1) {
+                pdf.save("aanvraagformulier.pdf");
+            }
+        });
+    });
+}
+
+    </script>
+    <!-- Popup Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <p>Zijn alle antwoorden ingevuld?</p>
+            <div class="modal-buttons">
+                <button onclick="handleSubmit(true)">Ja</button>
+                <button onclick="handleSubmit(false)">Nee</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resultaat bericht -->
+    <div id="resultMessage" class="modal">
+        <div class="modal-content">
+            <p id="resultText"></p>
+            <div class="modal-buttons">
+                <button onclick="closeModal()">Sluiten</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toon de modal
+        function showModal() {
+            document.getElementById('confirmationModal').style.display = 'block';
+        }
+
+        // Verberg de modal
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            document.getElementById('resultMessage').style.display = 'none';
+        }
+
+        // Behandel de keuze van de gebruiker
+        function handleSubmit(isConfirmed) {
+            document.getElementById('confirmationModal').style.display = 'none';
+            const resultTextElement = document.getElementById('resultText');
+
+            if (isConfirmed) {
+                resultTextElement.innerHTML = `
+					<strong>Uw aanvraag is verzonden!</strong><br><br>
+                    Wij danken u voor het in ons gestelde vertrouwen.<br><br>
+                    Heeft u het online aanvraagformulier volledig ingevuld, dan is uw auto per gewenste ingangsdatum in voorlopige dekking genomen en ontvangt u binnen ca. 10 werkdagen de betreffende polisstukken.<br><br>
+                    Is het online aanvraagformulier niet volledig of onjuist ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
+                `;
+            } else {
+                resultTextElement.innerHTML = `
+                    U wordt teruggeleid naar het aanvraagformulier om uw antwoorden te controleren. Uw antwoorden zijn opgeslagen.
+                `;
+                // Hier zou je eventueel code kunnen toevoegen om het formulier weer zichtbaar te maken
+            }
+
+            document.getElementById('resultMessage').style.display = 'block';
+        }
+    </script>             
+			 </div>
             </div>
 
             <!-- Navigation Buttons -->
@@ -1068,7 +1166,8 @@ toggleZakelijkInfo();
     </div>
 
     <script>
-  let currentStep = 0;
+        // JavaScript to handle the form step navigation
+        let currentStep = 0;
         showStep(currentStep);
 
         function showStep(n) {
@@ -1106,7 +1205,7 @@ toggleZakelijkInfo();
             indicators[n].classList.add("active-step");
         }
 
-        // Conditionele velden
+        // JavaScript to handle the conditional fields
         document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem) => {
             elem.addEventListener("change", function(event) {
                 const value = event.target.value;
@@ -1118,126 +1217,201 @@ toggleZakelijkInfo();
                 }
             });
         });
+document.addEventListener('DOMContentLoaded', function() {
+    const dekkingRadios = document.getElementsByName('dekking');
+    const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const dekkingRadios = document.getElementsByName('dekking');
-            const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
-            dekkingRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'anders') {
-                        dekkingOmschrijving.style.display = 'block';
-                    } else {
-                        dekkingOmschrijving.style.display = 'none';
-                    }
-                });
-            });
-
-            const schadeErvaringRadios = document.getElementsByName('schade-ervaring');
-            const schadeErvaringInfo = document.getElementById('schade-ervaring-info');
-            schadeErvaringRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'yes') {
-                        schadeErvaringInfo.style.display = 'block';
-                    } else {
-                        schadeErvaringInfo.style.display = 'none';
-                    }
-                });
-            });
-
-            const schadeVrijeJarenRadios = document.getElementsByName('schadevrije-jaren');
-            const schadeVrijeJarenInfo = document.getElementById('schadevrije-jaren-info');
-            schadeVrijeJarenRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'yes') {
-                        schadeVrijeJarenInfo.style.display = 'block';
-                    } else {
-                        schadeVrijeJarenInfo.style.display = 'none';
-                    }
-                });
-            });
-
-            const opzegserviceYes = document.getElementById('opzegservice-yes');
-            const opzegserviceNo = document.getElementById('opzegservice-no');
-            const opzegserviceDetails = document.getElementById('opzegservice-details');
-            opzegserviceYes.addEventListener('change', function() {
-                opzegserviceDetails.style.display = 'block';
-            });
-            opzegserviceNo.addEventListener('change', function() {
-                opzegserviceDetails.style.display = 'none';
-            });
-
-            const particulierRadio = document.getElementById('particulier');
-            const zakelijkRadio = document.getElementById('zakelijk');
-            const zakelijkInfo = document.getElementById('zakelijk-info');
-            particulierRadio.addEventListener('change', function() {
-                zakelijkInfo.style.display = 'none';
-            });
-            zakelijkRadio.addEventListener('change', function() {
-                zakelijkInfo.style.display = 'block';
-            });
-
-            const rechtsvormSelect = document.getElementById('rechtsvorm');
-            const rechtsvormOmschrijvingContainer = document.getElementById('rechtsvorm-omschrijving-container');
-            rechtsvormSelect.addEventListener('change', function() {
-                if (this.value === 'anders') {
-                    rechtsvormOmschrijvingContainer.style.display = 'block';
-                } else {
-                    rechtsvormOmschrijvingContainer.style.display = 'block';
-                }
-            });
-
-            const aantalBelanghebbendenInput = document.getElementById('aantal-belanghebbenden');
-            const belanghebbendenInfo = document.getElementById('belanghebbenden-info');
-            aantalBelanghebbendenInput.addEventListener('input', function() {
-                belanghebbendenInfo.innerHTML = '';
-                const aantal = this.value;
-                for (let i = 1; i <= aantal; i++) {
-                    const container = document.createElement('div');
-                    container.innerHTML = `
-                        <h4>Belanghebbende ${i}</h4>
-                        <div class="form-group">
-                            <label>Voorletter(s) en achternaam</label>
-                            <input type="text" name="belanghebbende-${i}-naam">
-                        </div>
-                        <div class="form-group">
-                            <label>Adres</label>
-                            <input type="text" name="belanghebbende-${i}-adres">
-                        </div>
-                        <div class="form-group">
-                            <label>Postcode en woonplaats</label>
-                            <input type="text" name="belanghebbende-${i}-postcode">
-                        </div>
-                        <div class="form-group">
-                            <label>Geboortedatum</label>
-                            <input type="date" name="belanghebbende-${i}-geboortedatum">
-                        </div>
-                    `;
-                    belanghebbendenInfo.appendChild(container);
-                }
-            });
-
-            function toggleAdditionalInfo(radioGroupName, infoDivId) {
-                const radios = document.getElementsByName(radioGroupName);
-                const infoDiv = document.getElementById(infoDivId);
-                radios.forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        if (this.value === 'yes') {
-                            infoDiv.style.display = 'block';
-                        } else {
-                            infoDiv.style.display = 'none';
-                        }
-                    });
-                });
+    dekkingRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'anders') {
+                dekkingOmschrijving.style.display = 'block';
+            } else {
+                dekkingOmschrijving.style.display = 'none';
             }
-
-            toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
-            toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
-            toggleAdditionalInfo('failliet', 'failliet-info');
-            toggleAdditionalInfo('beslag', 'beslag-info');
-            toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
-            toggleAdditionalInfo('conflict', 'conflict-info');
-            toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
         });
-    </script>
+    });
+
+    // Initialiseer de zichtbaarheid bij het laden van de pagina
+    const checkedDekking = document.querySelector('input[name="dekking"]:checked');
+    if (checkedDekking && checkedDekking.value === 'anders') {
+        dekkingOmschrijving.style.display = 'block';
+    } else {
+        dekkingOmschrijving.style.display = 'none';
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const schadeErvaringRadios = document.getElementsByName('schade-ervaring');
+    const schadeErvaringInfo = document.getElementById('schade-ervaring-info');
+	
+    
+    schadeErvaringRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'yes') {
+                schadeErvaringInfo.style.display = 'block';
+            } else {
+                schadeErvaringInfo.style.display = 'none';
+            }
+        });
+    });
+
+    const schadeVrijeJarenRadios = document.getElementsByName('schadevrije-jaren');
+    const schadeVrijeJarenInfo = document.getElementById('schadevrije-jaren-info');
+    
+    schadeVrijeJarenRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'yes') {
+                schadeVrijeJarenInfo.style.display = 'block';
+            } else {
+                schadeVrijeJarenInfo.style.display = 'none';
+            }
+        });
+    });
+
+    // Initialiseer de zichtbaarheid bij het laden van de pagina
+    schadeErvaringRadios.forEach(radio => {
+        if (radio.checked && radio.value === 'yes') {
+            schadeErvaringInfo.style.display = 'block';
+        }
+    });
+
+    schadeVrijeJarenRadios.forEach(radio => {
+        if (radio.checked && radio.value === 'yes') {
+            schadeVrijeJarenInfo.style.display = 'block';
+        }
+    });
+});
+
+       document.querySelectorAll('input[name="strafrechtelijk-verleden"]').forEach((elem) => {
+            elem.addEventListener("change", function(event) {
+                const value = event.target.value;
+                const info = document.getElementById("strafrechtelijk-verleden-info");
+                if (value === "yes") {
+                    info.classList.add("active");
+                } else {
+                    info.classList.remove("active");
+                }
+            });
+        });
+
+        document.querySelectorAll('input[name="opzegging"]').forEach((elem) => {
+            elem.addEventListener("change", function(event) {
+                const value = event.target.value;
+                const info = document.getElementById("opzegging-info");
+                if (value === "yes") {
+                    info.classList.add("active");
+                } else {
+                    info.classList.remove("active");
+					var canvas = document.getElementById('signature-pad');
+var canvas = document.getElementById('signature-pad');
+canvas.width = window.innerWidth;  // Zorg ervoor dat het canvas correct wordt geschaald
+canvas.height = window.innerHeight; 
+var signaturePad = new SignaturePad(canvas);
+
+        function getTouchPos(canvasDom, touchEvent) {
+            var rect = canvasDom.getBoundingClientRect();
+            return {
+                x: touchEvent.touches[0].clientX - rect.left,
+                y: touchEvent.touches[0].clientY - rect.top
+            };
+        }
+
+        canvas.addEventListener('touchstart', function(event) {
+            isDrawing = true;
+            var pos = getTouchPos(canvas, event);
+            context.beginPath();
+            context.moveTo(pos.x, pos.y);
+        });
+
+        canvas.addEventListener('touchmove', function(event) {
+            event.preventDefault(); // Voorkomt scrollen tijdens het tekenen op touch apparaten
+            if (isDrawing) {
+                var pos = getTouchPos(canvas, event);
+                context.lineTo(pos.x, pos.y);
+                context.stroke();
+            }
+        });
+
+        canvas.addEventListener('touchend', function() {
+            isDrawing = false;
+        });
+
+        canvas.addEventListener('mousedown', function(event) {
+            isDrawing = true;
+            context.moveTo(event.offsetX, event.offsetY);
+        });
+
+        canvas.addEventListener('mousemove', function(event) {
+            if (isDrawing) {
+                context.lineTo(event.offsetX, event.offsetY);
+                context.stroke();
+            }
+        });
+
+        canvas.addEventListener('mouseup', function() {
+            isDrawing = false;
+        });
+
+        canvas.addEventListener('mouseout', function() {
+            isDrawing = false;
+        });
+
+        document.getElementById('clear').addEventListener('click', function() {
+            location.reload(); // Vernieuw de hele pagina bij het klikken op "Wissen"
+        });
+
+        document.getElementById('save').addEventListener('click', function() {
+            if (context.getImageData(0, 0, canvas.width, canvas.height).data.some(channel => channel !== 0)) {
+                var dataURL = canvas.toDataURL('image/png');
+                // Maak een link aan voor het downloaden van de handtekening
+                var link = document.createElement('a');
+                link.href = dataURL;
+                link.download = 'handtekening.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                // Herstel de achtergrondkleur van het canvas naar wit na het opslaan
+                context.fillStyle = '#fff';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+            } else {
+                alert("Please provide a signature first.");
+            }
+        });
+
+        document.getElementById('go-back').addEventListener('click', function() {
+            window.history.back();
+			
+        });
+var canvas = document.getElementById('signature-pad');
+var signaturePad = new SignaturePad(canvas);       
+canvas.addEventListener("mousedown", function(event) {
+    console.log("Muis down event geregistreerd!");
+});
+
+canvas.addEventListener("mousemove", function(event) {
+    console.log("Muis move event geregistreerd!");
+});
+
+canvas.addEventListener("mouseup", function(event) {
+    console.log("Muis up event geregistreerd!");
+});
+// Selecteer het canvas en maak de signature pad aan
+var canvas = document.getElementById('signature-pad');
+var signaturePad = new SignaturePad(canvas);
+
+// Selecteer de herstel-knop
+var clearButton = document.getElementById('clear-signature');
+
+// Voeg een klik-event listener toe aan de knop
+clearButton.addEventListener('click', function() {
+    signaturePad.clear();
+	
+});
+         }
+   
+   });
+        });
+
+</script>
 </body>
 </html>
