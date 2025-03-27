@@ -1068,8 +1068,7 @@ toggleZakelijkInfo();
     </div>
 
     <script>
-        // Formulier navigatie
-        let currentStep = 0;
+  let currentStep = 0;
         showStep(currentStep);
 
         function showStep(n) {
@@ -1092,8 +1091,8 @@ toggleZakelijkInfo();
             let steps = document.getElementsByClassName("step-content");
             steps[currentStep].style.display = "none";
             currentStep = currentStep + n;
-            if (currentStep >= steps.length || currentStep < 0) {
-                currentStep = Math.min(Math.max(currentStep, 0), steps.length - 1); // Beperk tot geldige stappen
+            if (currentStep >= steps.length) {
+                document.getElementById("insurance-form").submit();
                 return false;
             }
             showStep(currentStep);
