@@ -975,94 +975,7 @@ toggleZakelijkInfo();
 		</div>
 </div>
 
-			<script>
-			document.addEventListener('DOMContentLoaded', function() {
-    function toggleAdditionalInfo(radioGroupName, infoDivId) {
-        const radios = document.getElementsByName(radioGroupName);
-        const infoDiv = document.getElementById(infoDivId);
-        
-        radios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'yes') {
-                    infoDiv.style.display = 'block';
-                } else {
-                    infoDiv.style.display = 'none';
-                }
-            });
-        });
-    }
-
-    toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
-    toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
-    toggleAdditionalInfo('failliet', 'failliet-info');
-	toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
-    toggleAdditionalInfo('fraude', 'fraude-info');
-    toggleAdditionalInfo('conflict', 'conflict-info');
-    toggleAdditionalInfo('beslag', 'beslag-info');
-    toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
-}); 
-</script> 
-                </div>
-				</div>
-            </div>
-</div>
-           <div class="step-content" id="step5">
-                <div class="form-group">
-                    <label for="ondertekenaar">Voorletter(s) en achternaam:</label>
-                    <input type="text" id="ondertekenaar" name="ondertekenaar" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="datum-aanvraag">Datum aanvraag:</label>
-                    <input type="date" id="datum-aanvraag" name="datum-aanvraag" required>
-                </div>
-<br>
-<br>
-                <div class="form-confirm">
-                    <label>
-                        Ik verklaar:
-                        <ul>
-                            <li>Dat de volledige tekst van alle acceptatievragen door de adviseur aan mij is voorgelegd;</li>
-                            <li>Dat mijn antwoorden juist en volledig zijn;</li>
-                            <li>Dat ik de polisvoorwaarden en verzekeringskaarten die horen bij deze verzekering heb ontvangen;</li>
-                            <li>Dat ik akkoord ga met de toepasselijkheid van de polisvoorwaarden die bij deze verzekering horen;</li>
-                            <li>Dat ik een verzekering wil sluiten volgens de dekking zoals omschreven in deze polisvoorwaarden;</li>
-                            <li>Dat ik de afgesproken premie en kosten betaal als ik de polis ontvang die volgens deze aanvraag is opgemaakt;</li>
-                            <li>Dat a.s.r. informatie over mijn schade- en verzekeringsverleden mag opvragen bij andere verzekeraars of adviseurs;</li>
-                            <li>Dat ik de personen waarvan persoonsgegevens op dit aanvraagformulier staan, heb geïnformeerd dat deze gegevens door a.s.r. worden verwerkt.</li>
-                      </ul>
-                    </label>
-					<label><strong><text-align=center>Akkoord<input type="checkbox" id="verklaring" name="verklaring" required></strong></label>
-						</div>
-						<br>
-					<div class="form-group">
-					<div class="canvas"> 
-						<br>
-							<br>
-								<br>
-								<label> <strong> Uw digitale handtekening</strong></label>
-    <canvas id="signature-pad" width="400" height="200"></canvas>
-    <button id="clear-signature">Herstel handtekening</button>
-
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-    <script>
-        var canvas = document.getElementById('signature-pad');
-        var signaturePad = new SignaturePad(canvas);
-
-        // Selecteer de herstel-knop
-        var clearButton = document.getElementById('clear-signature');
-
-        // Voeg een klik-event listener toe aan de knop
-        clearButton.addEventListener('click', function() {
-            signaturePad.clear(); // Leegt het canvas
-        });
-    </script>
-</div>
-    <!-- Aanvraag indienen knop -->
-    <button class="submit-button" onclick="showModal()">Aanvraag indienen</button>
-
-    <script>
-<script>
+			<<script>
                     // Initialiseer SignaturePad
                     var canvas = document.getElementById('signature-pad');
                     var signaturePad = new SignaturePad(canvas);
@@ -1113,6 +1026,8 @@ toggleZakelijkInfo();
                                 Is het online aanvraagformulier niet volledig of onjuist ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
                             `;
                             document.getElementById('resultMessage').style.display = 'block';
+                            // Verberg het formulier na succesvolle verzending
+                            document.getElementById('insurance-form').style.display = 'none';
                         })
                         .catch((error) => {
                             document.getElementById('resultText').innerHTML = `
@@ -1132,9 +1047,10 @@ toggleZakelijkInfo();
                             submitForm();
                         } else {
                             resultTextElement.innerHTML = `
-                                U wordt teruggeleid naar het aanvraagformulier om uw antwoorden te controleren. Uw antwoorden zijn opgeslagen.
+                                U kunt uw antwoorden controleren en opnieuw indienen.
                             `;
                             document.getElementById('resultMessage').style.display = 'block';
+                            // Geen reset naar begin, gebruiker blijft op stap 5
                         }
                     }
 
@@ -1176,7 +1092,8 @@ toggleZakelijkInfo();
             let steps = document.getElementsByClassName("step-content");
             steps[currentStep].style.display = "none";
             currentStep = currentStep + n;
-            if (currentStep >= steps.length) {
+            if (currentStep >= steps.length || currentStep < 0) {
+                currentStep = Math.min(Math.max(currentStep, 0), steps.length - 1); // Beperk tot geldige stappen
                 return false;
             }
             showStep(currentStep);
