@@ -1058,45 +1058,75 @@ toggleZakelijkInfo();
         });
     </script>
 </div>
-    <!-- Aanvraag indienen knop -->
-    <button class="submit-button" onclick="showModal()">Aanvraag indienen</button>
+<!-- Aanvraag indienen knop -->
+<button class="submit-button" type="button" id="submitBtn">Aanvraag indienen</button>
 
-    <script>
-document.getElementById("downloadFormButton").addEventListener("click", function() {
-    generatePDF();
-});
-
-function generatePDF() {
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pageHeight = pdf.internal.pageSize.height;
-    let currentHeight = 0;
-
-    const pages = document.querySelectorAll('.form-page');
-
-    pages.forEach((page, index) => {
-        html2canvas(page, { scale: 2 }).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const imgWidth = 210; // A4 breedte in mm
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-            if (index === 0) {
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                currentHeight = imgHeight;
-            } else {
-                if (currentHeight + imgHeight > pageHeight) {
-                    pdf.addPage();
-                    currentHeight = 0;
-                }
-                pdf.addImage(imgData, 'PNG', 0, currentHeight, imgWidth, imgHeight);
-                currentHeight += imgHeight;
-            }
-
-            if (index === pages.length - 1) {
-                pdf.save("aanvraagformulier.pdf");
-            }
-        });
-    });
+<script>
+// Toon de modal
+function showModal() {
+    document.getElementById('confirmationModal').style.display = 'block';
 }
+
+// Verberg de modal
+function closeModal() {
+    document.getElementById('confirmationModal').style.display = 'none';
+    document.getElementById('resultMessage').style.display = 'none';
+}
+
+// Verzamel formuliergegevens en verstuur via mailto
+function submitForm() {
+    const form = document.getElementById('insurance-form');
+    const formData = new FormData(form);
+    let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
+
+    // Voeg alle formuliervelden toe aan de e-mailbody
+    for (let [key, value] of formData.entries()) {
+        if (value && value !== 'on') { // 'on' uitsluiten voor checkboxes
+            emailBody += `${key}: ${value}\n`;
+        }
+    }
+
+    // Voeg de handtekening toe als data-URL
+    const signatureData = signaturePad.toDataURL('image/png');
+    if (!signaturePad.isEmpty()) {
+        emailBody += `\nDigitale handtekening (als afbeelding): ${signatureData}\n`;
+    } else {
+        emailBody += "\nGeen handtekening toegevoegd.\n";
+    }
+
+    // Maak de mailto-link
+    const subject = encodeURIComponent("Aanvraagformulier Dekkerautoverzekering");
+    const body = encodeURIComponent(emailBody);
+    const mailtoLink = `mailto:rbuijs@klaasvis.nl?subject=${subject}&body=${body}`;
+
+    // Open de e-mailclient
+    window.location.href = mailtoLink;
+
+    // Toon succesbericht
+    document.getElementById('resultText').innerHTML = `
+        <strong>Uw aanvraag is verzonden!</strong><br><br>
+        Uw e-mailclient is geopend met de ingevulde gegevens. Vergeet niet de e-mail te verzenden!
+    `;
+    document.getElementById('resultMessage').style.display = 'block';
+}
+
+// Behandel de keuze van de gebruiker
+function handleSubmit(isConfirmed) {
+    document.getElementById('confirmationModal').style.display = 'none';
+    const resultTextElement = document.getElementById('resultText');
+
+    if (isConfirmed) {
+        submitForm();
+    } else {
+        resultTextElement.innerHTML = `
+            U wordt teruggeleid naar het aanvraagformulier om uw antwoorden te controleren. Uw antwoorden zijn opgeslagen.
+        `;
+        document.getElementById('resultMessage').style.display = 'block';
+    }
+}
+
+// Koppel de submit-knop aan de modal
+document.getElementById('submitBtn').addEventListener('click', showModal);
 
     </script>
     <!-- Popup Modal -->
