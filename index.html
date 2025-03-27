@@ -782,6 +782,8 @@
                                 Is het online aanvraagformulier niet volledig of onjuist ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
                             `;
                             document.getElementById('resultMessage').style.display = 'block';
+                            // Verberg het formulier na succesvolle verzending
+                            document.getElementById('insurance-form').style.display = 'none';
                         })
                         .catch((error) => {
                             document.getElementById('resultText').innerHTML = `
@@ -801,9 +803,10 @@
                             submitForm();
                         } else {
                             resultTextElement.innerHTML = `
-                                U wordt teruggeleid naar het aanvraagformulier om uw antwoorden te controleren. Uw antwoorden zijn opgeslagen.
+                                U kunt uw antwoorden controleren en opnieuw indienen.
                             `;
                             document.getElementById('resultMessage').style.display = 'block';
+                            // Geen reset naar begin, gebruiker blijft op stap 5
                         }
                     }
 
@@ -845,7 +848,8 @@
             let steps = document.getElementsByClassName("step-content");
             steps[currentStep].style.display = "none";
             currentStep = currentStep + n;
-            if (currentStep >= steps.length) {
+            if (currentStep >= steps.length || currentStep < 0) {
+                currentStep = Math.min(Math.max(currentStep, 0), steps.length - 1); // Beperk tot geldige stappen
                 return false;
             }
             showStep(currentStep);
