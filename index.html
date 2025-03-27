@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aanvraagformulier Dekkerautoverzekering</title>
-	    <link rel="icon" href="C:\Users\Randy\OneDrive\Bureaublad\Klaas Vis\Nieuwste programma\logo.png" type="image/png">
-			
-		<style>
+    <link rel="icon" href="C:\Users\Randy\OneDrive\Bureaublad\Klaas Vis\Nieuwste programma\logo.png" type="image/png">
+    
+    <!-- EmailJS SDK toevoegen -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("ONDQRoTrKQCSL4P-M"); // Jouw User ID
+        })();
+    </script>
+    
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #e0f7fa;
@@ -20,30 +28,30 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			        }
+        }
         .logo {
             text-align: center;
-            margin-bottom: 20px; /* Space between logo and form content */
+            margin-bottom: 20px;
         }
         .logo img {
-            max-width: 450px; /* Limit the size of the logo */
+            max-width: 450px;
             height: auto;
         }
         .footer-logo {
             text-align: center;
             position: absolute;
-            bottom: 20px; /* Offset to ensure it is below the form container */
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
             margin-top: 20px;
         }
         .footer-logo img {
-            max-width: 450px; /* Max width for the footer logo */
+            max-width: 450px;
             height: auto;
         }
         .footer {
-            background: #007BFF; /* Achtergrondkleur van de footer */
+            background: #007BFF;
             color: #fff;
             text-align: center;
             padding: 20px;
@@ -93,7 +101,6 @@
         .conditional.active {
             display: block;
         }
-		
         .form-group {
             margin-bottom: 15px;
         }
@@ -113,91 +120,62 @@
         }
         .form-group .radio-group {
             display: flex;
-            gap: 15px; /* Adds space between the radio buttons */
+            gap: 15px;
         }
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
         }
-checkbox-group {
-    margin-top: 10px; /* Ruimte boven de checkbox-groep */
-}
-
-.checkbox-item {
-    margin-bottom: 10px; /* Ruimte tussen checkbox-items */
-}
-
-.checkbox-item input[type="checkbox"] {
-    margin-right: 10px; /* Ruimte tussen checkbox en label */
-}
-
-.checkbox-label {
-    display: inline-block; /* Zorgt ervoor dat de label naast de checkbox staat */
-    font-size: 16px; /* Tekstgrootte van de label */
-}
-
-/* Stijl voor de switch knoppen */
-.switch {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px; /* Ruimte onder de switch */
-}
-
-.switch input[type="radio"] {
-    display: none; /* Verberg standaard radio-knoppen */
-}
-
-.switch-label {
-    cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    margin-right: 10px;
-}
-
-.switch input[type="radio"]:checked + .switch-label {
-    background-color: #28a745;
-    color: white;
-}
-
-.radio-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.radio-label {
-    margin-left: 5px;
-}
-
-.conditional {
-    display: none; /* Standaard niet zichtbaar, wordt zichtbaar via JavaScript */
-
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.radio-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.radio-label {
-    margin-left: 5px;
-}
- .signature-pad {
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        .checkbox-item {
+            margin-bottom: 10px;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .checkbox-label {
+            display: inline-block;
+            font-size: 16px;
+        }
+        .switch {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .switch input[type="radio"] {
+            display: none;
+        }
+        .switch-label {
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            margin-right: 10px;
+        }
+        .switch input[type="radio"]:checked + .switch-label {
+            background-color: #28a745;
+            color: white;
+        }
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .radio-label {
+            margin-left: 5px;
+        }
+        .signature-pad {
             border: 1px solid #000;
-            width: 90vw; /* Aangepast voor kleinere schermen */
+            width: 90vw;
             max-width: 400px;
             height: 200px;
-			align: center;
-            background-color: #fff; /* Achtergrondkleur van het canvas */
-            touch-action: none; /* Voorkomt scrollen tijdens het tekenen op touch apparaten */
-			} 
+            align: center;
+            background-color: #fff;
+            touch-action: none;
+        }
         .navigation-buttons button {
             padding: 10px 20px;
             border: none;
@@ -220,19 +198,19 @@ checkbox-group {
         canvas {
             border: 1px solid #000;
             display: block;
-		  flex-direction: column;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;
-} 			
-			button {
+        }
+        button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-			aligned: center;
-}
-  .submit-button {
-            background-color: #006400; /* Donkergroen */
+            aligned: center;
+        }
+        .submit-button {
+            background-color: #006400;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -247,7 +225,6 @@ checkbox-group {
             gap: 10px;
             margin-top: 20px;
         }
-
         .button-group button {
             padding: 10px 20px;
             border: none;
@@ -256,16 +233,14 @@ checkbox-group {
             cursor: pointer;
             border-radius: 5px;
         }
-
         .button-group .submit-button {
             background-color: darkgreen;
         }
-.download-button-container {
+        .download-button-container {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
-
         .download-button {
             padding: 10px 20px;
             background-color: blue;
@@ -275,13 +250,12 @@ checkbox-group {
             cursor: pointer;
             border-radius: 5px;
         }
-		        .page {
+        .page {
             width: 100%;
             padding: 20px;
             border: 1px solid #ddd;
             margin-bottom: 20px;
         }
-        /* Style voor de popup */
         .modal {
             display: none;
             position: fixed;
@@ -295,7 +269,6 @@ checkbox-group {
             background-color: rgba(0,0,0,0.4);
             padding-top: 60px;
         }
-
         .modal-content {
             background-color: #fefefe;
             margin: 5% auto;
@@ -304,106 +277,91 @@ checkbox-group {
             width: 80%;
             max-width: 500px;
         }
-
         .modal-buttons {
             text-align: center;
             margin-top: 20px;
         }
-
         .modal-buttons button {
             padding: 10px 20px;
             margin: 0 10px;
             font-size: 16px;
         }
-		.form-confirm {
-    font-family: Tahoma, sans-serif;
-    font-size: 14px;
-    background-color: #f0f0f0; /* Lichte grijze achtergrondkleur */
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.form-confirm label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-.form-confirm ul {
-    margin: 0;
-    padding: 0 0 0 20px;
-    list-style-type: disc;
-}
-
-.form-confirm input[type="checkbox"] {
-    margin-top: 10px;
-}
-.additional-info {
-    display: none;
-    margin-top: 10px;
-}
-
-textarea {
-    width: 100%;
-    height: 100px;
-    resize: none;
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-input[type="text"], 
-input[type="number"], 
-input[type="date"], 
-select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-input[type="radio"] {
-    margin-right: 5px;
-}
-
-.switch {
-    display: flex;
-    align-items: center;
-}
-
-.switch-label {
-    margin-right: 20px;
-}
-
-.conditional {
-    display: none;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.belanghebbende-container {
-    margin-bottom: 15px;
-}
+        .form-confirm {
+            font-family: Tahoma, sans-serif;
+            font-size: 14px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .form-confirm label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .form-confirm ul {
+            margin: 0;
+            padding: 0 0 0 20px;
+            list-style-type: disc;
+        }
+        .form-confirm input[type="checkbox"] {
+            margin-top: 10px;
+        }
+        .additional-info {
+            display: none;
+            margin-top: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            resize: none;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], 
+        input[type="number"], 
+        input[type="date"], 
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        .switch {
+            display: flex;
+            align-items: center;
+        }
+        .switch-label {
+            margin-right: 20px;
+        }
+        .conditional {
+            display: none;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .belanghebbende-container {
+            margin-bottom: 15px;
+        }
         .promo {
             position: fixed;
             bottom: 20px;
@@ -416,29 +374,25 @@ button:hover {
             max-width: 300px;
             font-size: 14px;
         }
-
         .promo img {
             max-width: 30px;
             margin-right: 10px;
             vertical-align: middle;
         }
-
         .promo strong {
             font-size: 16px;
             display: block;
             margin-bottom: 5px;
         }
-
-        /* Zorg ervoor dat het promoblok zichtbaar blijft bij scrollen */
         .content {
             min-height: 150vh;
-			} 
+        }
     </style>
 </head>
 <body>
     <div class="logo">
-        <img src="AfbeeldingDekker.png" alt="Dekkerautoverzekering"> <!-- Voeg hier de naam van jouw logo bestand in -->
-		<h2> Aanvraagformulier</h2>
+        <img src="AfbeeldingDekker.png" alt="Dekkerautoverzekering">
+        <h2>Online aanvraagformulier</h2>
     </div>
 
     <div class="form-container">
@@ -455,33 +409,31 @@ button:hover {
                     <label for="offertenummer">Offertenummer:</label>
                     <input type="text" id="offertenummer" name="offertenummer" required>
                 </div>
-<div class="form-group">
+                <div class="form-group">
                     <label for="Geboortedatum">Geboortedatum verzekeringnemer:</label>
                     <input type="date" id="Geboortedatum" name="Geboortedatum" required>
                 </div>
                 <div class="form-group">
                     <label for="regelmatige-bestuurder">Bent u de regelmatige bestuurder?</label>
-                         <div class="switch">
+                    <div class="switch">
                         <input type="radio" id="regelmatige-bestuurder-yes" name="regelmatige-bestuurder" value="yes">
-                        <label for="regelmatige-bestuurder-yes"class="switch-label">Ja</label>
+                        <label for="regelmatige-bestuurder-yes" class="switch-label">Ja</label>
                         <input type="radio" id="regelmatige-bestuurder-no" name="regelmatige-bestuurder" value="no">
-                        <label for="regelmatige-bestuurder-no"class="switch-label">Nee</label>
+                        <label for="regelmatige-bestuurder-no" class="switch-label">Nee</label>
                     </div>
                 </div>
 
                 <div id="regelmatige-bestuurder-info" class="conditional">
                     <div class="form-group">
-					<h4>Gegevens van de regelmatige bestuurder</h4>
+                        <h4>Gegevens van de regelmatige bestuurder</h4>
                         <label for="voorletters">Voorletters:</label>
                         <input type="text" id="voorletters" name="voorletters">
                     </div>
-
                     <div class="form-group">
                         <label for="achternaam">Achternaam:</label>
                         <input type="text" id="achternaam" name="achternaam">
                     </div>
-
-				  <div class="form-group">
+                    <div class="form-group">
                         <label for="Postcode en huisnummer">Postcode en huisnummer:</label>
                         <input type="text" id="Postcode en huisnummer" name="Postcode en huisnummer">
                     </div>
@@ -489,535 +441,491 @@ button:hover {
                         <label for="geboortedatum">Geboortedatum:</label>
                         <input type="date" id="geboortedatum" name="geboortedatum">
                     </div>
-
                     <div class="form-group">
                         <label for="relatie">Relatie tot verzekeringnemer:</label>
                         <input type="text" id="relatie" name="relatie">
                     </div>
-
                 </div>
-<h4>Betaalgegevens</h4>
-<div class="form-group">
-    <label>Betalingstermijn:</label>
-    <div class="switch">
-        <input type="radio" id="maandelijks" name="betalingstermijn" value="maandelijks" checked>
-        <label for="maandelijks" class="switch-label">Maandelijks</label>
-
-        <input type="radio" id="kwartaal" name="betalingstermijn" value="kwartaal">
-        <label for="kwartaal" class="switch-label">Kwartaal</label>
-
-        <input type="radio" id="jaarlijks" name="betalingstermijn" value="jaarlijks">
-        <label for="jaarlijks" class="switch-label">Jaarlijks</label>
-    </div>
-</div>
-
+                <h4>Betaalgegevens</h4>
+                <div class="form-group">
+                    <label>Betalingstermijn:</label>
+                    <div class="switch">
+                        <input type="radio" id="maandelijks" name="betalingstermijn" value="maandelijks" checked>
+                        <label for="maandelijks" class="switch-label">Maandelijks</label>
+                        <input type="radio" id="kwartaal" name="betalingstermijn" value="kwartaal">
+                        <label for="kwartaal" class="switch-label">Kwartaal</label>
+                        <input type="radio" id="jaarlijks" name="betalingstermijn" value="jaarlijks">
+                        <label for="jaarlijks" class="switch-label">Jaarlijks</label>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="iban">Uw IBAN-rekeningnummer:</label>
                     <input type="text" id="iban" name="iban" required>
                 </div>
             </div>
-		<div class="footer-logo">
-    </div>
-<div class="step-content" id="step2">
-    <div class="form-group">
-        <label for="ingangsdatum">Ingangsdatum verzekering:</label>
-        <input type="date" id="ingangsdatum" name="ingangsdatum">
-    </div>
-			<div>		
-		<label><text-align=center>Ingangsdatum is nog niet bekend<input type="checkbox" id="verklaring" name="verklaring"</label>
-						<br>
-						</div>
-						<br>
-       <div class="form-group">
-        <div class="switch">
-            <input type="radio" id="dekking-voorstel" name="dekking" value="voorstel" checked>
-            <label for="dekking-voorstel" class="switch-label">Dekking en premie conform het verzekeringsvoorstel</label>
-            <input type="radio" id="dekking-anders" name="dekking" value="anders">
-            <label for="dekking-anders" class="switch-label">Anders</label>
-        </div>
-    </div>
-
-    <div id="dekking-omschrijving" class="conditional">
-        <div class="form-group">
-            <label>Gewenste dekking:</label>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="wa" name="dekking-type" value="wa" checked disabled>
-                    <label for="wa" class="checkbox-label">WA (verplicht)</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="casco-compleet" name="dekking-type" value="casco-compleet">
-                    <label for="casco-compleet" class="checkbox-label">Casco Compleet (Allrisk)</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="beperkt-casco" name="dekking-type" value="beperkt-casco">
-                    <label for="beperkt-casco" class="checkbox-label">Beperkt Casco</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="schadeverzekering" name="dekking-type" value="schadeverzekering">
-                    <label for="schadeverzekering" class="checkbox-label">Schadeverzekering voor Inzittenden</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="rechtsbijstand" name="dekking-type" value="rechtsbijstand">
-                    <label for="rechtsbijstand" class="checkbox-label">Rechtsbijstand Verkeer</label>
-                </div>
+            <div class="footer-logo">
             </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="schade-ervaring">Heeft u of de regelmatige bestuurder in de afgelopen 5 jaar schade aan of met een motorvoertuig gehad?</label>
-        <div class="switch">
-            <input type="radio" id="schade-ervaring-yes" name="schade-ervaring" value="yes">
-            <label for="schade-ervaring-yes" class="switch-label">Ja</label>
-            <input type="radio" id="schade-ervaring-no" name="schade-ervaring" value="no">
-            <label for="schade-ervaring-no" class="switch-label">Nee</label>
-        </div>
-    </div>
-
-    <div id="schade-ervaring-info" class="conditional">
-        <div class="form-group">
-            <label for="schade-datum">Schadedatum:</label>
-            <input type="text" id="schade-datum" name="schade-datum">
-        </div>
-        <div class="form-group">
-            <label for="schade-bedrag">Schadebedrag(en):</label>
-            <input type="text" id="schade-bedrag" name="schade-bedrag">
-        </div>
-        <div class="form-group">
-            <label for="soort-schade">Soort schade(s):</label>
-            <input type="text" id="soort-schade" name="soort-schade">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="schadevrije-jaren">Heeft u bij uw vorige verzekeringsmaatschappij schadevrije jaren opgebouwd?</label>
-        <div class="switch">
-            <input type="radio" id="schadevrije-jaren-yes" name="schadevrije-jaren" value="yes">
-            <label for="schadevrije-jaren-yes" class="switch-label">Ja</label>
-            <input type="radio" id="schadevrije-jaren-no" name="schadevrije-jaren" value="no">
-            <label for="schadevrije-jaren-no" class="switch-label">Nee</label>
-        </div>
-    </div>
-
-    <div id="schadevrije-jaren-info" class="conditional">
-        <div class="form-group">
-            <label for="aantal-schadevrije-jaren">Aantal schadevrije jaren:</label>
-    <input type="Number" id="aantal-schadevrije-jaren" name="aantal-schadevrije-jaren">
-</div>
-</div>
-<div id="opzegservice-container" style="display: none;">
-    <div class="form-group">
-       <label> Indien uw huidige verzekering elders is ondergebracht, kunnen wij deze voor u opzeggen.</label>
-	   <label>Wenst u gebruik te maken van onze opzegservice?</label>
-        <div class="switch">
-            <input type="radio" id="opzegservice-yes" name="opzegservice" value="yes">
-            <label for="opzegservice-yes" class="switch-label">Ja</label>
-
-            <input type="radio" id="opzegservice-no" name="opzegservice" value="no">
-            <label for="opzegservice-no"class="switch-label">Nee</label>
-        </div>
-    </div>
-
-    <div id="opzegservice-details" style="display: none;">
-        <div class="form-group">
-            <label for="verzekeringsmaatschappij">Verzekeringsmaatschappij:</label>
-            <input type="text" id="verzekeringsmaatschappij" name="verzekeringsmaatschappij">
-        </div>
-
-        <div class="form-group">
-            <label for="name">Voorletter(s) en achternaam verzekeringnemer:</label>
-            <input type="text" id="name" name="name">
-        </div>
-		
-        <div class="form-group">
-            <label for="polisnummer">Uw huidige polisnummer:</label>
-            <input type="text" id="polisnummer" name="polisnummer">
-        </div>
-
-        <div class="form-group">
-            <label for="kenteken">Kenteken motorvoertuig:</label>
-            <input type="text" id="kenteken" name="kenteken">
-        </div>
-
-        <div class="form-group">
-            <label for="reden-opzegging">Reden van opzegging:</label>
-            <input type="text" id="reden-opzegging" name="reden-opzegging">
-        </div>
-
-        <div class="form-group">
-            <label for="datum-opzegging">Datum opzegging:</label>
-            <input type="date" id="datum-opzegging" name="datum-opzegging">
-        </div>
-    </div>
-</div>
-<script>
-// Selecteer de benodigde elementen
-const schadevrijeJarenYes = document.getElementById('schadevrije-jaren-yes');
-const schadevrijeJarenNo = document.getElementById('schadevrije-jaren-no');
-const opzegserviceContainer = document.getElementById('opzegservice-container');
-
-const opzegserviceYes = document.getElementById('opzegservice-yes');
-const opzegserviceNo = document.getElementById('opzegservice-no');
-const opzegserviceDetails = document.getElementById('opzegservice-details');
-
-// Functie om de opzegservice vraag te tonen/verbergen
-function toggleOpzegservice() {
-    if (schadevrijeJarenYes.checked) {
-        opzegserviceContainer.style.display = 'block';
-    } else {
-        opzegserviceContainer.style.display = 'none';
-        opzegserviceDetails.style.display = 'none'; // Verberg ook de aanvullende vragen
-    }
-}
-
-// Functie om de opzegservice details te tonen/verbergen
-function toggleOpzegserviceDetails() {
-    if (opzegserviceYes.checked) {
-        opzegserviceDetails.style.display = 'block';
-    } else {
-        opzegserviceDetails.style.display = 'none';
-    }
-}
-
-// Event listeners toevoegen voor de interacties
-schadevrijeJarenYes.addEventListener('change', toggleOpzegservice);
-schadevrijeJarenNo.addEventListener('change', toggleOpzegservice);
-
-opzegserviceYes.addEventListener('change', toggleOpzegserviceDetails);
-opzegserviceNo.addEventListener('change', toggleOpzegserviceDetails);
-
-// Initial call to set correct visibility based on default selection
-toggleOpzegservice();
-toggleOpzegserviceDetails();
-</script>
-<div class="form-group">
-    <label for="aanschaf">Heeft u de auto particulier of zakelijk aangeschaft?</label>
-    <div class="switch">
-        <input type="radio" id="particulier" name="aanschaf" value="particulier" checked>
-        <label for="particulier" class="switch-label">Particulier</label>
-        <input type="radio" id="zakelijk" name="aanschaf" value="zakelijk">
-        <label for="zakelijk" class="switch-label">Zakelijk</label>
-    </div>
-</div>
-
-<!-- Conditional content for Zakelijk -->
-<div id="zakelijk-info" class="conditional" style="display: none;">
-    <div class="form-group">
-        <label for="rechtsvorm">Rechtsvorm:</label>
-        <select id="rechtsvorm" name="rechtsvorm">
-            <option value="bv">Besloten Vennootschap (BV)</option>
-            <option value="zzp">Eenmanszaak (ZZP)</option>
-            <option value="nv">Naamloze Vennootschap (NV)</option>
-            <option value="stichting">Stichting/Vereniging</option>
-            <option value="anders">Anders</option>
-        </select>
-    </div>
-
-    <div class="form-group" id="rechtsvorm-omschrijving-container" style="display: none;">
-        <label for="rechtsvorm-omschrijving">Geef aan wat van toepassing is:</label>
-        <select id="rechtsvorm-omschrijving" name="rechtsvorm-omschrijving">
-            <option value="ubo-eenmanszaak">Betreft een eenmanszaak, vul uw gegevens hieronder in (UBO).</option>
-            <option value="ubo-belang">Uiteindelijk belanghebbende(n) met een belang van 25% of meer. Noteer onderstaand wie deze uiteindelijk belanghebbenden zijn.</option>
-            <option value="geen-ubo">Geen belanghebbende(n) van 25% of meer.</option>
-            <option value="zeggenschap">Noteer de personen die feitelijk zeggenschap uitoefenen over de organisatie.</option>
-        </select>
-    </div>
-                <h3>UBO verklaring </h3>
-				<h4> belanghebbende 1 </h4>
+            <div class="step-content" id="step2">
                 <div class="form-group">
-                    <label>Voorletter(s) en achternaam</label>
-                    <input type="text" placeholder="Naam belanghebbende">
+                    <label for="ingangsdatum">Ingangsdatum verzekering:</label>
+                    <input type="date" id="ingangsdatum" name="ingangsdatum">
+                </div>
+                <div>		
+                    <label><text-align=center>Ingangsdatum is nog niet bekend<input type="checkbox" id="verklaring" name="verklaring"></label>
+                    <br>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="switch">
+                        <input type="radio" id="dekking-voorstel" name="dekking" value="voorstel" checked>
+                        <label for="dekking-voorstel" class="switch-label">Dekking en premie conform het verzekeringsvoorstel</label>
+                        <input type="radio" id="dekking-anders" name="dekking" value="anders">
+                        <label for="dekking-anders" class="switch-label">Anders</label>
+                    </div>
+                </div>
+                <div id="dekking-omschrijving" class="conditional">
+                    <div class="form-group">
+                        <label>Gewenste dekking:</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="wa" name="dekking-type" value="wa" checked disabled>
+                                <label for="wa" class="checkbox-label">WA (verplicht)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="casco-compleet" name="dekking-type" value="casco-compleet">
+                                <label for="casco-compleet" class="checkbox-label">Casco Compleet (Allrisk)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="beperkt-casco" name="dekking-type" value="beperkt-casco">
+                                <label for="beperkt-casco" class="checkbox-label">Beperkt Casco</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="schadeverzekering" name="dekking-type" value="schadeverzekering">
+                                <label for="schadeverzekering" class="checkbox-label">Schadeverzekering voor Inzittenden</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="rechtsbijstand" name="dekking-type" value="rechtsbijstand">
+                                <label for="rechtsbijstand" class="checkbox-label">Rechtsbijstand Verkeer</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Adres</label>
-                    <input type="text" placeholder="Adres">
+                    <label for="schade-ervaring">Heeft u of de regelmatige bestuurder in de afgelopen 5 jaar schade aan of met een motorvoertuig gehad?</label>
+                    <div class="switch">
+                        <input type="radio" id="schade-ervaring-yes" name="schade-ervaring" value="yes">
+                        <label for="schade-ervaring-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="schade-ervaring-no" name="schade-ervaring" value="no">
+                        <label for="schade-ervaring-no" class="switch-label">Nee</label>
+                    </div>
+                </div>
+                <div id="schade-ervaring-info" class="conditional">
+                    <div class="form-group">
+                        <label for="schade-datum">Schadedatum:</label>
+                        <input type="text" id="schade-datum" name="schade-datum">
+                    </div>
+                    <div class="form-group">
+                        <label for="schade-bedrag">Schadebedrag(en):</label>
+                        <input type="text" id="schade-bedrag" name="schade-bedrag">
+                    </div>
+                    <div class="form-group">
+                        <label for="soort-schade">Soort schade(s):</label>
+                        <input type="text" id="soort-schade" name="soort-schade">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Postcode en woonplaats</label>
-                    <input type="text" placeholder="Postcode en woonplaats">
+                    <label for="schadevrije-jaren">Heeft u bij uw vorige verzekeringsmaatschappij schadevrije jaren opgebouwd?</label>
+                    <div class="switch">
+                        <input type="radio" id="schadevrije-jaren-yes" name="schadevrije-jaren" value="yes">
+                        <label for="schadevrije-jaren-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="schadevrije-jaren-no" name="schadevrije-jaren" value="no">
+                        <label for="schadevrije-jaren-no" class="switch-label">Nee</label>
+                    </div>
                 </div>
+                <div id="schadevrije-jaren-info" class="conditional">
+                    <div class="form-group">
+                        <label for="aantal-schadevrije-jaren">Aantal schadevrije jaren:</label>
+                        <input type="Number" id="aantal-schadevrije-jaren" name="aantal-schadevrije-jaren">
+                    </div>
+                </div>
+                <div id="opzegservice-container" style="display: none;">
+                    <div class="form-group">
+                        <label>Indien uw huidige verzekering elders is ondergebracht, kunnen wij deze voor u opzeggen.</label>
+                        <label>Wenst u gebruik te maken van onze opzegservice?</label>
+                        <div class="switch">
+                            <input type="radio" id="opzegservice-yes" name="opzegservice" value="yes">
+                            <label for="opzegservice-yes" class="switch-label">Ja</label>
+                            <input type="radio" id="opzegservice-no" name="opzegservice" value="no">
+                            <label for="opzegservice-no" class="switch-label">Nee</label>
+                        </div>
+                    </div>
+                    <div id="opzegservice-details" style="display: none;">
+                        <div class="form-group">
+                            <label for="verzekeringsmaatschappij">Verzekeringsmaatschappij:</label>
+                            <input type="text" id="verzekeringsmaatschappij" name="verzekeringsmaatschappij">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Voorletter(s) en achternaam verzekeringnemer:</label>
+                            <input type="text" id="name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="polisnummer">Uw huidige polisnummer:</label>
+                            <input type="text" id="polisnummer" name="polisnummer">
+                        </div>
+                        <div class="form-group">
+                            <label for="kenteken">Kenteken motorvoertuig:</label>
+                            <input type="text" id="kenteken" name="kenteken">
+                        </div>
+                        <div class="form-group">
+                            <label for="reden-opzegging">Reden van opzegging:</label>
+                            <input type="text" id="reden-opzegging" name="reden-opzegging">
+                        </div>
+                        <div class="form-group">
+                            <label for="datum-opzegging">Datum opzegging:</label>
+                            <input type="date" id="datum-opzegging" name="datum-opzegging">
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    const schadevrijeJarenYes = document.getElementById('schadevrije-jaren-yes');
+                    const schadevrijeJarenNo = document.getElementById('schadevrije-jaren-no');
+                    const opzegserviceContainer = document.getElementById('opzegservice-container');
+                    const opzegserviceYes = document.getElementById('opzegservice-yes');
+                    const opzegserviceNo = document.getElementById('opzegservice-no');
+                    const opzegserviceDetails = document.getElementById('opzegservice-details');
+
+                    function toggleOpzegservice() {
+                        if (schadevrijeJarenYes.checked) {
+                            opzegserviceContainer.style.display = 'block';
+                        } else {
+                            opzegserviceContainer.style.display = 'none';
+                            opzegserviceDetails.style.display = 'none';
+                        }
+                    }
+
+                    function toggleOpzegserviceDetails() {
+                        if (opzegserviceYes.checked) {
+                            opzegserviceDetails.style.display = 'block';
+                        } else {
+                            opzegserviceDetails.style.display = 'none';
+                        }
+                    }
+
+                    schadevrijeJarenYes.addEventListener('change', toggleOpzegservice);
+                    schadevrijeJarenNo.addEventListener('change', toggleOpzegservice);
+                    opzegserviceYes.addEventListener('change', toggleOpzegserviceDetails);
+                    opzegserviceNo.addEventListener('change', toggleOpzegserviceDetails);
+
+                    toggleOpzegservice();
+                    toggleOpzegserviceDetails();
+                </script>
                 <div class="form-group">
-                    <label>Geboortedatum</label>
-                    <input type="date">
+                    <label for="aanschaf">Heeft u de auto particulier of zakelijk aangeschaft?</label>
+                    <div class="switch">
+                        <input type="radio" id="particulier" name="aanschaf" value="particulier" checked>
+                        <label for="particulier" class="switch-label">Particulier</label>
+                        <input type="radio" id="zakelijk" name="aanschaf" value="zakelijk">
+                        <label for="zakelijk" class="switch-label">Zakelijk</label>
+                    </div>
                 </div>
-								<h4> belanghebbende 2 </h4>
-                <div class="form-group">
-                    <label>Voorletter(s) en achternaam</label>
-                    <input type="text" placeholder="Naam belanghebbende">
+                <div id="zakelijk-info" class="conditional" style="display: none;">
+                    <div class="form-group">
+                        <label for="rechtsvorm">Rechtsvorm:</label>
+                        <select id="rechtsvorm" name="rechtsvorm">
+                            <option value="bv">Besloten Vennootschap (BV)</option>
+                            <option value="zzp">Eenmanszaak (ZZP)</option>
+                            <option value="nv">Naamloze Vennootschap (NV)</option>
+                            <option value="stichting">Stichting/Vereniging</option>
+                            <option value="anders">Anders</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="rechtsvorm-omschrijving-container" style="display: none;">
+                        <label for="rechtsvorm-omschrijving">Geef aan wat van toepassing is:</label>
+                        <select id="rechtsvorm-omschrijving" name="rechtsvorm-omschrijving">
+                            <option value="ubo-eenmanszaak">Betreft een eenmanszaak, vul uw gegevens hieronder in (UBO).</option>
+                            <option value="ubo-belang">Uiteindelijk belanghebbende(n) met een belang van 25% of meer. Noteer onderstaand wie deze uiteindelijk belanghebbenden zijn.</option>
+                            <option value="geen-ubo">Geen belanghebbende(n) van 25% of meer.</option>
+                            <option value="zeggenschap">Noteer de personen die feitelijk zeggenschap uitoefenen over de organisatie.</option>
+                        </select>
+                    </div>
+                    <h3>UBO verklaring </h3>
+                    <h4>belanghebbende 1 </h4>
+                    <div class="form-group">
+                        <label>Voorletter(s) en achternaam</label>
+                        <input type="text" placeholder="Naam belanghebbende">
+                    </div>
+                    <div class="form-group">
+                        <label>Adres</label>
+                        <input type="text" placeholder="Adres">
+                    </div>
+                    <div class="form-group">
+                        <label>Postcode en woonplaats</label>
+                        <input type="text" placeholder="Postcode en woonplaats">
+                    </div>
+                    <div class="form-group">
+                        <label>Geboortedatum</label>
+                        <input type="date">
+                    </div>
+                    <h4>belanghebbende 2 </h4>
+                    <div class="form-group">
+                        <label>Voorletter(s) en achternaam</label>
+                        <input type="text" placeholder="Naam belanghebbende">
+                    </div>
+                    <div class="form-group">
+                        <label>Adres</label>
+                        <input type="text" placeholder="Adres">
+                    </div>
+                    <div class="form-group">
+                        <label>Postcode en woonplaats</label>
+                        <input type="text" placeholder="Postcode en woonplaats">
+                    </div>
+                    <div class="form-group">
+                        <label>Geboortedatum</label>
+                        <input type="date">
+                    </div>
+                    <h4>belanghebbende 3 </h4>
+                    <div class="form-group">
+                        <label>Voorletter(s) en achternaam</label>
+                        <input type="text" placeholder="Naam belanghebbende">
+                    </div>
+                    <div class="form-group">
+                        <label>Adres</label>
+                        <input type="text" placeholder="Adres">
+                    </div>
+                    <div class="form-group">
+                        <label>Postcode en woonplaats</label>
+                        <input type="text" placeholder="Postcode en woonplaats">
+                    </div>
+                    <div class="form-group">
+                        <label>Geboortedatum</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="aantal-belanghebbenden">Indien er meer dan 3 belanghebbenden zijn, graag het totaal aantal en de gegevens van deze personen</label>
+                        <input type="number" id="aantal-belanghebbenden" name="aantal-belanghebbenden" min="1" max="10">
+                    </div>
+                    <div id="belanghebbenden-info"></div>
                 </div>
-                <div class="form-group">
-                    <label>Adres</label>
-                    <input type="text" placeholder="Adres">
-                </div>
-                <div class="form-group">
-                    <label>Postcode en woonplaats</label>
-                    <input type="text" placeholder="Postcode en woonplaats">
-                </div>
-                <div class="form-group">
-                    <label>Geboortedatum</label>
-                    <input type="date">
-                </div>
-								<h4> belanghebbende 3 </h4>
-                <div class="form-group">
-                    <label>Voorletter(s) en achternaam</label>
-                    <input type="text" placeholder="Naam belanghebbende">
-                </div>
-                <div class="form-group">
-                    <label>Adres</label>
-                    <input type="text" placeholder="Adres">
-                </div>
-                <div class="form-group">
-                    <label>Postcode en woonplaats</label>
-                    <input type="text" placeholder="Postcode en woonplaats">
-                </div>
-                <div class="form-group">
-                    <label>Geboortedatum</label>
-                    <input type="date">
-                </div>
-				  <!-- Dynamische invoer voor belanghebbenden -->
-    <div class="form-group">
-        <label for="aantal-belanghebbenden">Indien er meer dan 3 belanghebbenden zijn, graag het totaal aantal en de gegevens van deze personen</label>
-        <input type="number" id="aantal-belanghebbenden" name="aantal-belanghebbenden" min="1" max="10">
-    </div>
-    <div id="belanghebbenden-info"></div>
-</div>
+                <script>
+                    const particulierRadio = document.getElementById('particulier');
+                    const zakelijkRadio = document.getElementById('zakelijk');
+                    const zakelijkInfo = document.getElementById('zakelijk-info');
+                    const rechtsvormSelect = document.getElementById('rechtsvorm');
+                    const rechtsvormOmschrijvingContainer = document.getElementById('rechtsvorm-omschrijving-container');
+                    const aantalBelanghebbendenInput = document.getElementById('aantal-belanghebbenden');
+                    const belanghebbendenInfo = document.getElementById('belanghebbenden-info');
 
-<script>
-// Elementen selecteren
-const particulierRadio = document.getElementById('particulier');
-const zakelijkRadio = document.getElementById('zakelijk');
-const zakelijkInfo = document.getElementById('zakelijk-info');
-const rechtsvormSelect = document.getElementById('rechtsvorm');
-const rechtsvormOmschrijvingContainer = document.getElementById('rechtsvorm-omschrijving-container');
-const aantalBelanghebbendenInput = document.getElementById('aantal-belanghebbenden');
-const belanghebbendenInfo = document.getElementById('belanghebbenden-info');
+                    function toggleZakelijkInfo() {
+                        if (zakelijkRadio.checked) {
+                            zakelijkInfo.style.display = 'block';
+                        } else {
+                            zakelijkInfo.style.display = 'none';
+                            rechtsvormOmschrijvingContainer.style.display = 'none';
+                            belanghebbendenInfo.innerHTML = '';
+                        }
+                    }
 
-// Functie om zakelijk sectie te tonen/verbergen
-function toggleZakelijkInfo() {
-    if (zakelijkRadio.checked) {
-        zakelijkInfo.style.display = 'block';
-    } else {
-        zakelijkInfo.style.display = 'none';
-        rechtsvormOmschrijvingContainer.style.display = 'none';
-        belanghebbendenInfo.innerHTML = '';  // Verwijder bestaande belanghebbendenvelden
-    }
-}
+                    function toggleRechtsvormOmschrijving() {
+                        const selectedValue = rechtsvormSelect.value;
+                        if (selectedValue === 'anders') {
+                            rechtsvormOmschrijvingContainer.style.display = 'block';
+                        } else {
+                            rechtsvormOmschrijvingContainer.style.display = 'block';
+                        }
+                    }
 
-// Functie om rechtsvorm-omschrijving sectie te tonen/verbergen
-function toggleRechtsvormOmschrijving() {
-    const selectedValue = rechtsvormSelect.value;
-    if (selectedValue === 'anders') {
-        rechtsvormOmschrijvingContainer.style.display = 'block';
-    } else {
-        rechtsvormOmschrijvingContainer.style.display = 'block'; // Toon de selectie afhankelijk van de keuze
-    }
-}
+                    function updateBelanghebbendenInfo() {
+                        const aantal = aantalBelanghebbendenInput.value;
+                        belanghebbendenInfo.innerHTML = '';
 
-// Functie om dynamische belanghebbende velden te genereren
-function updateBelanghebbendenInfo() {
-    const aantal = aantalBelanghebbendenInput.value;
-    belanghebbendenInfo.innerHTML = ''; // Oude velden verwijderen
+                        for (let i = 1; i <= aantal; i++) {
+                            const belanghebbendeContainer = document.createElement('div');
+                            belanghebbendeContainer.classList.add('belanghebbende-container');
+                            
+                            const nameLabel = document.createElement('label');
+                            nameLabel.textContent = `Belanghebbende ${i} Voor- en achternaam:`;
+                            const nameInput = document.createElement('input');
+                            nameInput.type = 'text';
+                            nameInput.name = `belanghebbende-${i}-naam`;
+                            nameInput.id = `belanghebbende-${i}-naam`;
 
-    for (let i = 1; i <= aantal; i++) {
-        const belanghebbendeContainer = document.createElement('div');
-        belanghebbendeContainer.classList.add('belanghebbende-container');
-        
-        const nameLabel = document.createElement('label');
-        nameLabel.textContent = `Belanghebbende ${i} Voor- en achternaam:`;
-        const nameInput = document.createElement('input');
-        nameInput.type = 'text';
-        nameInput.name = `belanghebbende-${i}-naam`;
-        nameInput.id = `belanghebbende-${i}-naam`;
+                            const addressLabel = document.createElement('label');
+                            addressLabel.textContent = `Belanghebbende ${i} Adres:`;
+                            const addressInput = document.createElement('input');
+                            addressInput.type = 'text';
+                            addressInput.name = `belanghebbende-${i}-adres`;
+                            addressInput.id = `belanghebbende-${i}-adres`;
 
-        const addressLabel = document.createElement('label');
-        addressLabel.textContent = `Belanghebbende ${i} Adres:`;
-        const addressInput = document.createElement('input');
-        addressInput.type = 'text';
-        addressInput.name = `belanghebbende-${i}-adres`;
-        addressInput.id = `belanghebbende-${i}-adres`;
+                            const postalCodeLabel = document.createElement('label');
+                            postalCodeLabel.textContent = `Belanghebbende ${i} Postcode en Woonplaats:`;
+                            const postalCodeInput = document.createElement('input');
+                            postalCodeInput.type = 'text';
+                            postalCodeInput.name = `belanghebbende-${i}-postcode`;
+                            postalCodeInput.id = `belanghebbende-${i}-postcode`;
 
-        const postalCodeLabel = document.createElement('label');
-        postalCodeLabel.textContent = `Belanghebbende ${i} Postcode en Woonplaats:`;
-        const postalCodeInput = document.createElement('input');
-        postalCodeInput.type = 'text';
-        postalCodeInput.name = `belanghebbende-${i}-postcode`;
-        postalCodeInput.id = `belanghebbende-${i}-postcode`;
+                            const birthDateLabel = document.createElement('label');
+                            birthDateLabel.textContent = `Belanghebbende ${i} Geboortedatum:`;
+                            const birthDateInput = document.createElement('input');
+                            birthDateInput.type = 'date';
+                            birthDateInput.name = `belanghebbende-${i}-geboortedatum`;
+                            birthDateInput.id = `belanghebbende-${i}-geboortedatum`;
 
-        const birthDateLabel = document.createElement('label');
-        birthDateLabel.textContent = `Belanghebbende ${i} Geboortedatum:`;
-        const birthDateInput = document.createElement('input');
-        birthDateInput.type = 'date';
-        birthDateInput.name = `belanghebbende-${i}-geboortedatum`;
-        birthDateInput.id = `belanghebbende-${i}-geboortedatum`;
+                            belanghebbendeContainer.appendChild(nameLabel);
+                            belanghebbendeContainer.appendChild(nameInput);
+                            belanghebbendeContainer.appendChild(addressLabel);
+                            belanghebbendeContainer.appendChild(addressInput);
+                            belanghebbendeContainer.appendChild(postalCodeLabel);
+                            belanghebbendeContainer.appendChild(postalCodeInput);
+                            belanghebbendeContainer.appendChild(birthDateLabel);
+                            belanghebbendeContainer.appendChild(birthDateInput);
 
-        belanghebbendeContainer.appendChild(nameLabel);
-        belanghebbendeContainer.appendChild(nameInput);
-        belanghebbendeContainer.appendChild(addressLabel);
-        belanghebbendeContainer.appendChild(addressInput);
-        belanghebbendeContainer.appendChild(postalCodeLabel);
-        belanghebbendeContainer.appendChild(postalCodeInput);
-        belanghebbendeContainer.appendChild(birthDateLabel);
-        belanghebbendeContainer.appendChild(birthDateInput);
+                            belanghebbendenInfo.appendChild(belanghebbendeContainer);
+                        }
+                    }
 
-        belanghebbendenInfo.appendChild(belanghebbendeContainer);
-    }
-}
+                    particulierRadio.addEventListener('change', toggleZakelijkInfo);
+                    zakelijkRadio.addEventListener('change', toggleZakelijkInfo);
+                    rechtsvormSelect.addEventListener('change', toggleRechtsvormOmschrijving);
+                    aantalBelanghebbendenInput.addEventListener('input', updateBelanghebbendenInfo);
 
-// Event listeners toevoegen
-particulierRadio.addEventListener('change', toggleZakelijkInfo);
-zakelijkRadio.addEventListener('change', toggleZakelijkInfo);
-rechtsvormSelect.addEventListener('change', toggleRechtsvormOmschrijving);
-aantalBelanghebbendenInput.addEventListener('input', updateBelanghebbendenInfo);
-
-// Initial call to set correct visibility based on default selection
-toggleZakelijkInfo();
-</script>
-</div>
+                    toggleZakelijkInfo();
+                </script>
+            </div>
             <!-- Step 4 -->
-<div class="step-content" id="step4">
-    <div class="form-group">
-<div class="form-group">
-    <label>Is de auto vanaf de datum dat deze op naam van de kentekenhouder staat, langer dan 10 dagen onverzekerd?</label>
-    <div class="switch">
-        <input type="radio" id="onverzekerd-yes" name="onverzekerd" value="yes">
-        <label for="onverzekerd-yes" class="switch-label">Ja</label>
-
-        <input type="radio" id="onverzekerd-no" name="onverzekerd" value="no">
-        <label for="onverzekerd-no" class="switch-label">Nee</label>
-    </div>
-    <div id="onverzekerd-info" class="additional-info">
-        <label for="onverzekerd-text">Toelichting:</label>
-        <textarea id="onverzekerd-text" name="onverzekerd-text"></textarea>
-    </div>
-</div>
-
-</div>
-    <div class="form-group">
-    <label>Heeft een verzekeraar in de afgelopen 8 jaar:</label>
-    <label>Geweigerd een verzekeringsovereenkomst te sluiten met u of een andere belanghebbende?</label>
-    <label>Een verzekering opgezegd van u of een andere belanghebbende?</label>
-    <div class="switch">
-        <input type="radio" id="verzekeraar-yes" name="verzekeraar" value="yes">
-        <label for="verzekeraar-yes" class="switch-label">Ja</label>
-
-        <input type="radio" id="verzekeraar-no" name="verzekeraar" value="no">
-        <label for="verzekeraar-no" class="switch-label">Nee</label>
-    </div>
-    <div id="verzekeraar-info" class="additional-info">
-        <label for="verzekeraar-text">Toelichting:</label>
-        <textarea id="verzekeraar-text" name="verzekeraar-text"></textarea>
-    </div>
-</div>
+            <div class="step-content" id="step4">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label>Is de auto vanaf de datum dat deze op naam van de kentekenhouder staat, langer dan 10 dagen onverzekerd?</label>
+                        <div class="switch">
+                            <input type="radio" id="onverzekerd-yes" name="onverzekerd" value="yes">
+                            <label for="onverzekerd-yes" class="switch-label">Ja</label>
+                            <input type="radio" id="onverzekerd-no" name="onverzekerd" value="no">
+                            <label for="onverzekerd-no" class="switch-label">Nee</label>
+                        </div>
+                        <div id="onverzekerd-info" class="additional-info">
+                            <label for="onverzekerd-text">Toelichting:</label>
+                            <textarea id="onverzekerd-text" name="onverzekerd-text"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Heeft een verzekeraar in de afgelopen 8 jaar:</label>
+                    <label>Geweigerd een verzekeringsovereenkomst te sluiten met u of een andere belanghebbende?</label>
+                    <label>Een verzekering opgezegd van u of een andere belanghebbende?</label>
+                    <div class="switch">
+                        <input type="radio" id="verzekeraar-yes" name="verzekeraar" value="yes">
+                        <label for="verzekeraar-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="verzekeraar-no" name="verzekeraar" value="no">
+                        <label for="verzekeraar-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="verzekeraar-info" class="additional-info">
+                        <label for="verzekeraar-text">Toelichting:</label>
+                        <textarea id="verzekeraar-text" name="verzekeraar-text"></textarea>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Bent u, of is een andere belanghebbende de laatste 5 jaar failliet verklaard, in een schuldsanering betrokken of is de rechter akkoord gegaan met een (uitstel) surseance van betaling?</label>
-    <div class="switch">
-        <input type="radio" id="failliet-yes" name="failliet" value="yes">
-        <label for="failliet-yes" class="switch-label">Ja</label>
-
-        <input type="radio" id="failliet-no" name="failliet" value="no">
-        <label for="failliet-no" class="switch-label">Nee</label>
-    </div>
-    <div id="failliet-info" class="additional-info">
-        <label for="failliet-text">Toelichting:</label>
-        <textarea id="failliet-text" name="failliet-text"></textarea>
-    </div>
-</div>
+                    <div class="switch">
+                        <input type="radio" id="failliet-yes" name="failliet" value="yes">
+                        <label for="failliet-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="failliet-no" name="failliet" value="no">
+                        <label for="failliet-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="failliet-info" class="additional-info">
+                        <label for="failliet-text">Toelichting:</label>
+                        <textarea id="failliet-text" name="failliet-text"></textarea>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Heeft de deurwaarder op dit moment beslag gelegd op inkomsten of bezittingen van u of een andere belanghebbende? Of op het te verzekeren risico of andere eigendommen?</label>
-                   <div class="switch">
-        <input type="radio" id="beslag-yes" name="beslag" value="yes">
-        <label for="beslag-yes" class="switch-label">Ja</label>
-
-        <input type="radio" id="beslag-no" name="beslag" value="no">
-        <label for="beslag-no" class="switch-label">Nee</label>
-    </div>
-    <div id="beslag-info" class="additional-info">
-        <label for="beslag-text">Toelichting:</label>
-        <textarea id="beslag-text" name="beslag-text"></textarea>
-</div>
+                    <div class="switch">
+                        <input type="radio" id="beslag-yes" name="beslag" value="yes">
+                        <label for="beslag-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="beslag-no" name="beslag" value="no">
+                        <label for="beslag-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="beslag-info" class="additional-info">
+                        <label for="beslag-text">Toelichting:</label>
+                        <textarea id="beslag-text" name="beslag-text"></textarea>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Heeft u in de laatste 8 jaar een rijverbod of een rijontzegging gehad?</label>
-                   <div class="switch">
-        <input type="radio" id="rijontzegging-yes" name="rijontzegging" value="yes">
-        <label for="rijontzegging-yes" class="switch-label">Ja</label>
-        <input type="radio" id="rijontzegging-no" name="rijontzegging" value="no">
-        <label for="rijontzegging-no" class="switch-label">Nee</label>
-    <div id="rijontzegging-info" class="additional-info">
-        <label for="rijontzegging-text">Toelichting:</label>
-        <textarea id="rijontzegging-text" name="rijontzegging-text"></textarea>
-</div>
-</div>
-
+                    <div class="switch">
+                        <input type="radio" id="rijontzegging-yes" name="rijontzegging" value="yes">
+                        <label for="rijontzegging-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="rijontzegging-no" name="rijontzegging" value="no">
+                        <label for="rijontzegging-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="rijontzegging-info" class="additional-info">
+                        <label for="rijontzegging-text">Toelichting:</label>
+                        <textarea id="rijontzegging-text" name="rijontzegging-text"></textarea>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Hebt u, of een andere belanghebbende, in de laatste 5 jaar voor het sluiten van deze verzekering een conflict gehad waarbij juridische hulp nodig was?</label>
-					<div class="switch">	
-        <input type="radio" id="conflict-yes" name="conflict" value="yes">
-        <label for="conflict-yes" class="switch-label">Ja</label>
-
-        <input type="radio" id="conflict-no" name="conflict" value="no">
-        <label for="conflict-no" class="switch-label">Nee</label>
-    </div>
-    <div id="conflict-info" class="additional-info">
-        <label for="conflict-text">Toelichting:</label>
-        <textarea id="conflict-text" name="conflict-text"></textarea>
-				</div>
-				</div>
+                    <div class="switch">
+                        <input type="radio" id="conflict-yes" name="conflict" value="yes">
+                        <label for="conflict-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="conflict-no" name="conflict" value="no">
+                        <label for="conflict-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="conflict-info" class="additional-info">
+                        <label for="conflict-text">Toelichting:</label>
+                        <textarea id="conflict-text" name="conflict-text"></textarea>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Heeft u verder iets mede te delen over het te verzekeren risico, uzelf of een andere belanghebbende, dat (eventueel) voor de beoordeling van belang zou kunnen zijn?</label>
-                   <div class="switch">
-				   <input type="radio" id="meer-informatie-yes" name="meer-informatie" value="yes">
-                    <label for="meer-informatie-yes" class="switch-label">Ja</label>
-                    <input type="radio" id="meer-informatie-no" name="meer-informatie" value="no">
-                    <label for="meer-informatie-no" class="switch-label">Nee</label>
-					          <div id="meer-informatie-info" class="additional-info">
-        <label for="meer-informatie-text">Toelichting:</label>
-        <textarea id="meer-informatie-text" name="meer-informatie-text"></textarea>
-		</div>
-</div>
-
-			<script>
-			document.addEventListener('DOMContentLoaded', function() {
-    function toggleAdditionalInfo(radioGroupName, infoDivId) {
-        const radios = document.getElementsByName(radioGroupName);
-        const infoDiv = document.getElementById(infoDivId);
-        
-        radios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'yes') {
-                    infoDiv.style.display = 'block';
-                } else {
-                    infoDiv.style.display = 'none';
-                }
-            });
-        });
-    }
-
-    toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
-    toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
-    toggleAdditionalInfo('failliet', 'failliet-info');
-	toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
-    toggleAdditionalInfo('fraude', 'fraude-info');
-    toggleAdditionalInfo('conflict', 'conflict-info');
-    toggleAdditionalInfo('beslag', 'beslag-info');
-    toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
-}); 
-</script> 
+                    <div class="switch">
+                        <input type="radio" id="meer-informatie-yes" name="meer-informatie" value="yes">
+                        <label for="meer-informatie-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="meer-informatie-no" name="meer-informatie" value="no">
+                        <label for="meer-informatie-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="meer-informatie-info" class="additional-info">
+                        <label for="meer-informatie-text">Toelichting:</label>
+                        <textarea id="meer-informatie-text" name="meer-informatie-text"></textarea>
+                    </div>
                 </div>
-				</div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function toggleAdditionalInfo(radioGroupName, infoDivId) {
+                            const radios = document.getElementsByName(radioGroupName);
+                            const infoDiv = document.getElementById(infoDivId);
+                            
+                            radios.forEach(radio => {
+                                radio.addEventListener('change', function() {
+                                    if (this.value === 'yes') {
+                                        infoDiv.style.display = 'block';
+                                    } else {
+                                        infoDiv.style.display = 'none';
+                                    }
+                                });
+                            });
+                        }
+
+                        toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
+                        toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
+                        toggleAdditionalInfo('failliet', 'failliet-info');
+                        toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
+                        toggleAdditionalInfo('fraude', 'fraude-info');
+                        toggleAdditionalInfo('conflict', 'conflict-info');
+                        toggleAdditionalInfo('beslag', 'beslag-info');
+                        toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
+                    }); 
+                </script> 
             </div>
-</div>
-           <div class="step-content" id="step5">
+            <div class="step-content" id="step5">
                 <div class="form-group">
                     <label for="ondertekenaar">Voorletter(s) en achternaam:</label>
                     <input type="text" id="ondertekenaar" name="ondertekenaar" required>
                 </div>
-
                 <div class="form-group">
                     <label for="datum-aanvraag">Datum aanvraag:</label>
                     <input type="date" id="datum-aanvraag" name="datum-aanvraag" required>
                 </div>
-<br>
-<br>
+                <br><br>
                 <div class="form-confirm">
                     <label>
                         Ik verklaar:
@@ -1030,133 +938,156 @@ toggleZakelijkInfo();
                             <li>Dat ik de afgesproken premie en kosten betaal als ik de polis ontvang die volgens deze aanvraag is opgemaakt;</li>
                             <li>Dat a.s.r. informatie over mijn schade- en verzekeringsverleden mag opvragen bij andere verzekeraars of adviseurs;</li>
                             <li>Dat ik de personen waarvan persoonsgegevens op dit aanvraagformulier staan, heb geïnformeerd dat deze gegevens door a.s.r. worden verwerkt.</li>
-                      </ul>
+                        </ul>
                     </label>
-					<label><strong><text-align=center>Akkoord<input type="checkbox" id="verklaring" name="verklaring" required></strong></label>
-						</div>
-						<br>
-					<div class="form-group">
-					<div class="canvas"> 
-						<br>
-							<br>
-								<br>
-								<label> <strong> Uw digitale handtekening</strong></label>
-    <canvas id="signature-pad" width="400" height="200"></canvas>
-    <button id="clear-signature">Herstel handtekening</button>
+                    <label><strong><text-align=center>Akkoord<input type="checkbox" id="verklaring" name="verklaring" required></strong></label>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="canvas"> 
+                        <br><br><br>
+                        <label><strong>Uw digitale handtekening</strong></label>
+                        <canvas id="signature-pad" width="400" height="200"></canvas>
+                        <button id="clear-signature">Herstel handtekening</button>
 
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-    <script>
-        var canvas = document.getElementById('signature-pad');
-        var signaturePad = new SignaturePad(canvas);
+                        <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+                        <script>
+                            var canvas = document.getElementById('signature-pad');
+                            var signaturePad = new SignaturePad(canvas);
+                            var clearButton = document.getElementById('clear-signature');
+                            clearButton.addEventListener('click', function() {
+                                signaturePad.clear();
+                            });
+                        </script>
+                    </div>
+                    <!-- Aanvraag indienen knop -->
+                    <button class="submit-button" onclick="showModal()">Aanvraag indienen</button>
 
-        // Selecteer de herstel-knop
-        var clearButton = document.getElementById('clear-signature');
+                    <script>
+                        document.getElementById("downloadFormButton") && document.getElementById("downloadFormButton").addEventListener("click", function() {
+                            generatePDF();
+                        });
 
-        // Voeg een klik-event listener toe aan de knop
-        clearButton.addEventListener('click', function() {
-            signaturePad.clear(); // Leegt het canvas
-        });
-    </script>
-</div>
-    <!-- Aanvraag indienen knop -->
-    <button class="submit-button" onclick="showModal()">Aanvraag indienen</button>
+                        function generatePDF() {
+                            const pdf = new jsPDF('p', 'mm', 'a4');
+                            const pageHeight = pdf.internal.pageSize.height;
+                            let currentHeight = 0;
 
-    <script>
-document.getElementById("downloadFormButton").addEventListener("click", function() {
-    generatePDF();
-});
+                            const pages = document.querySelectorAll('.form-page');
 
-function generatePDF() {
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pageHeight = pdf.internal.pageSize.height;
-    let currentHeight = 0;
+                            pages.forEach((page, index) => {
+                                html2canvas(page, { scale: 2 }).then(canvas => {
+                                    const imgData = canvas.toDataURL('image/png');
+                                    const imgWidth = 210;
+                                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    const pages = document.querySelectorAll('.form-page');
+                                    if (index === 0) {
+                                        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                                        currentHeight = imgHeight;
+                                    } else {
+                                        if (currentHeight + imgHeight > pageHeight) {
+                                            pdf.addPage();
+                                            currentHeight = 0;
+                                        }
+                                        pdf.addImage(imgData, 'PNG', 0, currentHeight, imgWidth, imgHeight);
+                                        currentHeight += imgHeight;
+                                    }
 
-    pages.forEach((page, index) => {
-        html2canvas(page, { scale: 2 }).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const imgWidth = 210; // A4 breedte in mm
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                                    if (index === pages.length - 1) {
+                                        pdf.save("aanvraagformulier.pdf");
+                                    }
+                                });
+                            });
+                        }
 
-            if (index === 0) {
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                currentHeight = imgHeight;
-            } else {
-                if (currentHeight + imgHeight > pageHeight) {
-                    pdf.addPage();
-                    currentHeight = 0;
-                }
-                pdf.addImage(imgData, 'PNG', 0, currentHeight, imgWidth, imgHeight);
-                currentHeight += imgHeight;
-            }
+                        // Toon de modal
+                        function showModal() {
+                            document.getElementById('confirmationModal').style.display = 'block';
+                        }
 
-            if (index === pages.length - 1) {
-                pdf.save("aanvraagformulier.pdf");
-            }
-        });
-    });
-}
+                        // Verberg de modal
+                        function closeModal() {
+                            document.getElementById('confirmationModal').style.display = 'none';
+                            document.getElementById('resultMessage').style.display = 'none';
+                        }
 
-    </script>
-    <!-- Popup Modal -->
-    <div id="confirmationModal" class="modal">
-        <div class="modal-content">
-            <p>Zijn alle antwoorden ingevuld?</p>
-            <div class="modal-buttons">
-                <button onclick="handleSubmit(true)">Ja</button>
-                <button onclick="handleSubmit(false)">Nee</button>
+                        // Behandel de keuze van de gebruiker en verstuur via EmailJS
+                        function handleSubmit(isConfirmed) {
+                            document.getElementById('confirmationModal').style.display = 'none';
+                            const resultTextElement = document.getElementById('resultText');
+
+                            if (isConfirmed) {
+                                const form = document.getElementById('insurance-form');
+                                const formData = new FormData(form);
+                                let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
+
+                                // Verzamel alle formuliergegevens
+                                for (let [key, value] of formData.entries()) {
+                                    if (value && value !== 'on') {
+                                        emailBody += `${key}: ${value}\n`;
+                                    }
+                                }
+
+                                // Voeg de handtekening toe
+                                const signatureData = signaturePad.toDataURL('image/png');
+                                if (!signaturePad.isEmpty()) {
+                                    emailBody += `\nDigitale handtekening (base64): ${signatureData}\n`;
+                                } else {
+                                    emailBody += "\nGeen handtekening toegevoegd.\n";
+                                }
+
+                                // Verstuur via EmailJS
+                                emailjs.send("service_wke8swi", "template_igkvytp", {
+                                    message: emailBody
+                                })
+                                .then(() => {
+                                    resultTextElement.innerHTML = `
+                                        <strong>Uw aanvraag is verzonden!</strong><br><br>
+                                        Wij danken u voor het in ons gestelde vertrouwen.<br><br>
+                                        Heeft u het online aanvraagformulier volledig ingevuld, dan is uw auto per gewenste ingangsdatum in voorlopige dekking genomen en ontvangt u binnen ca. 10 werkdagen de betreffende polisstukken.<br><br>
+                                        Is het online aanvraagformulier niet volledig of onjuist ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
+                                    `;
+                                    document.getElementById('resultMessage').style.display = 'block';
+                                    document.getElementById('insurance-form').style.display = 'none'; // Verberg formulier na verzending
+                                    document.querySelector('.navigation-buttons').style.display = 'none'; // Verberg navigatieknoppen
+                                })
+                                .catch((error) => {
+                                    resultTextElement.innerHTML = `
+                                        Er is een fout opgetreden bij het verzenden: ${error.text}
+                                    `;
+                                    document.getElementById('resultMessage').style.display = 'block';
+                                    console.error("EmailJS fout:", error);
+                                });
+                            } else {
+                                resultTextElement.innerHTML = `
+                                    U wordt teruggeleid naar het aanvraagformulier om uw antwoorden te controleren. Uw antwoorden zijn opgeslagen.
+                                `;
+                                document.getElementById('resultMessage').style.display = 'block';
+                            }
+                        }
+                    </script>             
+                </div>
+                <!-- Popup Modal -->
+                <div id="confirmationModal" class="modal">
+                    <div class="modal-content">
+                        <p>Zijn alle antwoorden ingevuld?</p>
+                        <div class="modal-buttons">
+                            <button onclick="handleSubmit(true)">Ja</button>
+                            <button onclick="handleSubmit(false)">Nee</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resultaat bericht -->
+                <div id="resultMessage" class="modal">
+                    <div class="modal-content">
+                        <p id="resultText"></p>
+                        <div class="modal-buttons">
+                            <button onclick="closeModal()">Sluiten</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Resultaat bericht -->
-    <div id="resultMessage" class="modal">
-        <div class="modal-content">
-            <p id="resultText"></p>
-            <div class="modal-buttons">
-                <button onclick="closeModal()">Sluiten</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Toon de modal
-        function showModal() {
-            document.getElementById('confirmationModal').style.display = 'block';
-        }
-
-        // Verberg de modal
-        function closeModal() {
-            document.getElementById('confirmationModal').style.display = 'none';
-            document.getElementById('resultMessage').style.display = 'none';
-        }
-
-        // Behandel de keuze van de gebruiker
-        function handleSubmit(isConfirmed) {
-            document.getElementById('confirmationModal').style.display = 'none';
-            const resultTextElement = document.getElementById('resultText');
-
-            if (isConfirmed) {
-                resultTextElement.innerHTML = `
-					<strong>Uw aanvraag is verzonden!</strong><br><br>
-                    Wij danken u voor het in ons gestelde vertrouwen.<br><br>
-                    Heeft u het online aanvraagformulier volledig ingevuld, dan is uw auto per gewenste ingangsdatum in voorlopige dekking genomen en ontvangt u binnen ca. 10 werkdagen de betreffende polisstukken.<br><br>
-                    Is het online aanvraagformulier niet volledig of onjuist ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
-                `;
-            } else {
-                resultTextElement.innerHTML = `
-                    U wordt teruggeleid naar het aanvraagformulier om uw antwoorden te controleren. Uw antwoorden zijn opgeslagen.
-                `;
-                // Hier zou je eventueel code kunnen toevoegen om het formulier weer zichtbaar te maken
-            }
-
-            document.getElementById('resultMessage').style.display = 'block';
-        }
-    </script>             
-			 </div>
-            </div>
-
             <!-- Navigation Buttons -->
             <div class="navigation-buttons text-center">
                 <button type="button" class="prev-button" id="prevBtn" onclick="nextPrev(-1)">Vorige</button>
@@ -1166,7 +1097,6 @@ function generatePDF() {
     </div>
 
     <script>
-        // JavaScript to handle the form step navigation
         let currentStep = 0;
         showStep(currentStep);
 
@@ -1205,7 +1135,6 @@ function generatePDF() {
             indicators[n].classList.add("active-step");
         }
 
-        // JavaScript to handle the conditional fields
         document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem) => {
             elem.addEventListener("change", function(event) {
                 const value = event.target.value;
@@ -1217,72 +1146,70 @@ function generatePDF() {
                 }
             });
         });
-document.addEventListener('DOMContentLoaded', function() {
-    const dekkingRadios = document.getElementsByName('dekking');
-    const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
 
-    dekkingRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'anders') {
+        document.addEventListener('DOMContentLoaded', function() {
+            const dekkingRadios = document.getElementsByName('dekking');
+            const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
+
+            dekkingRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'anders') {
+                        dekkingOmschrijving.style.display = 'block';
+                    } else {
+                        dekkingOmschrijving.style.display = 'none';
+                    }
+                });
+            });
+
+            const checkedDekking = document.querySelector('input[name="dekking"]:checked');
+            if (checkedDekking && checkedDekking.value === 'anders') {
                 dekkingOmschrijving.style.display = 'block';
             } else {
                 dekkingOmschrijving.style.display = 'none';
             }
         });
-    });
 
-    // Initialiseer de zichtbaarheid bij het laden van de pagina
-    const checkedDekking = document.querySelector('input[name="dekking"]:checked');
-    if (checkedDekking && checkedDekking.value === 'anders') {
-        dekkingOmschrijving.style.display = 'block';
-    } else {
-        dekkingOmschrijving.style.display = 'none';
-    }
-});
+        document.addEventListener('DOMContentLoaded', function() {
+            const schadeErvaringRadios = document.getElementsByName('schade-ervaring');
+            const schadeErvaringInfo = document.getElementById('schade-ervaring-info');
+            
+            schadeErvaringRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'yes') {
+                        schadeErvaringInfo.style.display = 'block';
+                    } else {
+                        schadeErvaringInfo.style.display = 'none';
+                    }
+                });
+            });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const schadeErvaringRadios = document.getElementsByName('schade-ervaring');
-    const schadeErvaringInfo = document.getElementById('schade-ervaring-info');
-	
-    
-    schadeErvaringRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'yes') {
-                schadeErvaringInfo.style.display = 'block';
-            } else {
-                schadeErvaringInfo.style.display = 'none';
-            }
+            const schadeVrijeJarenRadios = document.getElementsByName('schadevrije-jaren');
+            const schadeVrijeJarenInfo = document.getElementById('schadevrije-jaren-info');
+            
+            schadeVrijeJarenRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'yes') {
+                        schadeVrijeJarenInfo.style.display = 'block';
+                    } else {
+                        schadeVrijeJarenInfo.style.display = 'none';
+                    }
+                });
+            });
+
+            schadeErvaringRadios.forEach(radio => {
+                if (radio.checked && radio.value === 'yes') {
+                    schadeErvaringInfo.style.display = 'block';
+                }
+            });
+
+            schadeVrijeJarenRadios.forEach(radio => {
+                if (radio.checked && radio.value === 'yes') {
+                    schadeVrijeJarenInfo.style.display = 'block';
+                }
+            });
         });
-    });
 
-    const schadeVrijeJarenRadios = document.getElementsByName('schadevrije-jaren');
-    const schadeVrijeJarenInfo = document.getElementById('schadevrije-jaren-info');
-    
-    schadeVrijeJarenRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'yes') {
-                schadeVrijeJarenInfo.style.display = 'block';
-            } else {
-                schadeVrijeJarenInfo.style.display = 'none';
-            }
-        });
-    });
-
-    // Initialiseer de zichtbaarheid bij het laden van de pagina
-    schadeErvaringRadios.forEach(radio => {
-        if (radio.checked && radio.value === 'yes') {
-            schadeErvaringInfo.style.display = 'block';
-        }
-    });
-
-    schadeVrijeJarenRadios.forEach(radio => {
-        if (radio.checked && radio.value === 'yes') {
-            schadeVrijeJarenInfo.style.display = 'block';
-        }
-    });
-});
-
-       document.querySelectorAll('input[name="strafrechtelijk-verleden"]').forEach((elem) => {
+        document.querySelectorAll('input[name="strafrechtelijk-verleden"]').forEach((elem) => {
             elem.addEventListener("change", function(event) {
                 const value = event.target.value;
                 const info = document.getElementById("strafrechtelijk-verleden-info");
@@ -1302,116 +1229,98 @@ document.addEventListener('DOMContentLoaded', function() {
                     info.classList.add("active");
                 } else {
                     info.classList.remove("active");
-					var canvas = document.getElementById('signature-pad');
-var canvas = document.getElementById('signature-pad');
-canvas.width = window.innerWidth;  // Zorg ervoor dat het canvas correct wordt geschaald
-canvas.height = window.innerHeight; 
-var signaturePad = new SignaturePad(canvas);
+                    var canvas = document.getElementById('signature-pad');
+                    var canvas = document.getElementById('signature-pad');
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    var signaturePad = new SignaturePad(canvas);
 
-        function getTouchPos(canvasDom, touchEvent) {
-            var rect = canvasDom.getBoundingClientRect();
-            return {
-                x: touchEvent.touches[0].clientX - rect.left,
-                y: touchEvent.touches[0].clientY - rect.top
-            };
-        }
+                    function getTouchPos(canvasDom, touchEvent) {
+                        var rect = canvasDom.getBoundingClientRect();
+                        return {
+                            x: touchEvent.touches[0].clientX - rect.left,
+                            y: touchEvent.touches[0].clientY - rect.top
+                        };
+                    }
 
-        canvas.addEventListener('touchstart', function(event) {
-            isDrawing = true;
-            var pos = getTouchPos(canvas, event);
-            context.beginPath();
-            context.moveTo(pos.x, pos.y);
+                    canvas.addEventListener('touchstart', function(event) {
+                        isDrawing = true;
+                        var pos = getTouchPos(canvas, event);
+                        context.beginPath();
+                        context.moveTo(pos.x, pos.y);
+                    });
+
+                    canvas.addEventListener('touchmove', function(event) {
+                        event.preventDefault();
+                        if (isDrawing) {
+                            var pos = getTouchPos(canvas, event);
+                            context.lineTo(pos.x, pos.y);
+                            context.stroke();
+                        }
+                    });
+
+                    canvas.addEventListener('touchend', function() {
+                        isDrawing = false;
+                    });
+
+                    canvas.addEventListener('mousedown', function(event) {
+                        isDrawing = true;
+                        context.moveTo(event.offsetX, event.offsetY);
+                    });
+
+                    canvas.addEventListener('mousemove', function(event) {
+                        if (isDrawing) {
+                            context.lineTo(event.offsetX, event.offsetY);
+                            context.stroke();
+                        }
+                    });
+
+                    canvas.addEventListener('mouseup', function() {
+                        isDrawing = false;
+                    });
+
+                    canvas.addEventListener('mouseout', function() {
+                        isDrawing = false;
+                    });
+
+                    document.getElementById('clear') && document.getElementById('clear').addEventListener('click', function() {
+                        location.reload();
+                    });
+
+                    document.getElementById('save') && document.getElementById('save').addEventListener('click', function() {
+                        if (context.getImageData(0, 0, canvas.width, canvas.height).data.some(channel => channel !== 0)) {
+                            var dataURL = canvas.toDataURL('image/png');
+                            var link = document.createElement('a');
+                            link.href = dataURL;
+                            link.download = 'handtekening.png';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            context.fillStyle = '#fff';
+                            context.fillRect(0, 0, canvas.width, canvas.height);
+                        } else {
+                            alert("Please provide a signature first.");
+                        }
+                    });
+
+                    document.getElementById('go-back') && document.getElementById('go-back').addEventListener('click', function() {
+                        window.history.back();
+                    });
+
+                    canvas.addEventListener("mousedown", function(event) {
+                        console.log("Muis down event geregistreerd!");
+                    });
+
+                    canvas.addEventListener("mousemove", function(event) {
+                        console.log("Muis move event geregistreerd!");
+                    });
+
+                    canvas.addEventListener("mouseup", function(event) {
+                        console.log("Muis up event geregistreerd!");
+                    });
+                }
+            });
         });
-
-        canvas.addEventListener('touchmove', function(event) {
-            event.preventDefault(); // Voorkomt scrollen tijdens het tekenen op touch apparaten
-            if (isDrawing) {
-                var pos = getTouchPos(canvas, event);
-                context.lineTo(pos.x, pos.y);
-                context.stroke();
-            }
-        });
-
-        canvas.addEventListener('touchend', function() {
-            isDrawing = false;
-        });
-
-        canvas.addEventListener('mousedown', function(event) {
-            isDrawing = true;
-            context.moveTo(event.offsetX, event.offsetY);
-        });
-
-        canvas.addEventListener('mousemove', function(event) {
-            if (isDrawing) {
-                context.lineTo(event.offsetX, event.offsetY);
-                context.stroke();
-            }
-        });
-
-        canvas.addEventListener('mouseup', function() {
-            isDrawing = false;
-        });
-
-        canvas.addEventListener('mouseout', function() {
-            isDrawing = false;
-        });
-
-        document.getElementById('clear').addEventListener('click', function() {
-            location.reload(); // Vernieuw de hele pagina bij het klikken op "Wissen"
-        });
-
-        document.getElementById('save').addEventListener('click', function() {
-            if (context.getImageData(0, 0, canvas.width, canvas.height).data.some(channel => channel !== 0)) {
-                var dataURL = canvas.toDataURL('image/png');
-                // Maak een link aan voor het downloaden van de handtekening
-                var link = document.createElement('a');
-                link.href = dataURL;
-                link.download = 'handtekening.png';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                // Herstel de achtergrondkleur van het canvas naar wit na het opslaan
-                context.fillStyle = '#fff';
-                context.fillRect(0, 0, canvas.width, canvas.height);
-            } else {
-                alert("Please provide a signature first.");
-            }
-        });
-
-        document.getElementById('go-back').addEventListener('click', function() {
-            window.history.back();
-			
-        });
-var canvas = document.getElementById('signature-pad');
-var signaturePad = new SignaturePad(canvas);       
-canvas.addEventListener("mousedown", function(event) {
-    console.log("Muis down event geregistreerd!");
-});
-
-canvas.addEventListener("mousemove", function(event) {
-    console.log("Muis move event geregistreerd!");
-});
-
-canvas.addEventListener("mouseup", function(event) {
-    console.log("Muis up event geregistreerd!");
-});
-// Selecteer het canvas en maak de signature pad aan
-var canvas = document.getElementById('signature-pad');
-var signaturePad = new SignaturePad(canvas);
-
-// Selecteer de herstel-knop
-var clearButton = document.getElementById('clear-signature');
-
-// Voeg een klik-event listener toe aan de knop
-clearButton.addEventListener('click', function() {
-    signaturePad.clear();
-	
-});
-         }
-   
-   });
-        });
-
-</script>
+    </script>
 </body>
 </html>
