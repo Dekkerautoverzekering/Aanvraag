@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    <!-- ... andere head-elementen ... -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init(ONDQRoTrKQCSL4P-M); // Vervang door je User ID, bijv. "user_12345"
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aanvraagformulier Dekkerautoverzekering</title>
@@ -1062,10 +1069,6 @@ toggleZakelijkInfo();
 <button class="submit-button" type="button" id="submitBtn">Aanvraag indienen</button>
 
 <script>
-<!-- Aanvraag indienen knop -->
-<button class="submit-button" type="button" id="submitBtn">Aanvraag indienen</button>
-
-<script>
 // Toon de modal
 function showModal() {
     document.getElementById('confirmationModal').style.display = 'block';
@@ -1077,34 +1080,66 @@ function closeModal() {
     document.getElementById('resultMessage').style.display = 'none';
 }
 
-// Verstuur formulier naar de backend
+// Verstuur formulier via EmailJS
 function submitForm() {
     const form = document.getElementById('insurance-form');
     const formData = new FormData(form);
+    let emailBody = "Ingevulde gegevens:\n\n";
 
-    // Voeg de handtekening toe als base64
-    const signatureData = signaturePad.toDataURL('image/png');
-    if (!signaturePad.isEmpty()) {
-        formData.append('signature', signatureData);
+    // Verzamel alle formuliergegevens
+    for (let [key, value] of formData.entries()) {
+        if (value && value !== 'on') { // 'on' uitsluiten voor checkboxes
+            emailBody += `${key}: ${value}\n`;
+        }
     }
 
-    // Verstuur naar de backend via fetch
-    fetch('send_email.php', {
-        method: 'POST',
-        body: formData
+    // Voeg de handtekening toe
+    const signatureData = signaturePad.toDataURL('image/png');
+    if (!signaturePad.isEmpty()) {
+        emailBody += `\nDigitale handtekening (base64): ${signatureData}\n`;
+    } else {
+        emailBody += "\nGeen handtekening toegevoegd.\n";
+    }
+
+    // Verstuur via EmailJS
+    emailjs.send("JOUW_SERVICE_ID", "JOUW_TEMPLATE_ID", {
+        message: emailBody // Dit vult de {{message}} placeholder in de template
     })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('resultText').innerHTML = data.message;
-        document.getElementById('resultMessage').style.display = 'block';
-    })
-    .catch(error => {
+    .then(() => {
         document.getElementById('resultText').innerHTML = `
-            Er is een fout opgetreden bij het verzenden van uw aanvraag. Probeer het later opnieuw.
+            <strong>Uw aanvraag is verzonden!</strong><br><br>
+            Wij danken u voor het in ons gestelde vertrouwen.<br><br>
+            Uw aanvraag is succesvol verzonden vanaf rbuijs@klaasvis.nl.
         `;
         document.getElementById('resultMessage').style.display = 'block';
-        console.error('Error:', error);
+    })
+    .catch((error) => {
+        document.getElementById('resultText').innerHTML = `
+            Er is een fout opgetreden bij het verzenden: ${error.text}
+        `;
+        document.getElementById('resultMessage').style.display = 'block';
+        console.error("EmailJS fout:", error);
     });
+}
+
+// Behandel de keuze van de gebruiker
+function handleSubmit(isConfirmed) {
+    document.getElementById('confirmationModal').style.display = 'none';
+    const resultTextElement = document.getElementById('resultText');
+
+    if (isConfirmed) {
+        submitForm();
+    } else {
+        resultTextElement.innerHTML = `
+            U wordt teruggeleid naar het aanvraagformulier om uw antwoorden te controleren. Uw antwoorden zijn opgeslagen.
+        `;
+        document.getElementById('resultMessage').style.display = 'block';
+    }
+}
+
+// Koppel de submit-knop aan de modal
+document.getElementById('submitBtn').addEventListener('click', showModal);
+</script>
 }
 
 // Behandel de keuze van de gebruiker
