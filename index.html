@@ -1062,6 +1062,10 @@ toggleZakelijkInfo();
 <button class="submit-button" type="button" id="submitBtn">Aanvraag indienen</button>
 
 <script>
+<!-- Aanvraag indienen knop -->
+<button class="submit-button" type="button" id="submitBtn">Aanvraag indienen</button>
+
+<script>
 // Toon de modal
 function showModal() {
     document.getElementById('confirmationModal').style.display = 'block';
@@ -1073,41 +1077,34 @@ function closeModal() {
     document.getElementById('resultMessage').style.display = 'none';
 }
 
-// Verzamel formuliergegevens en verstuur via mailto
+// Verstuur formulier naar de backend
 function submitForm() {
     const form = document.getElementById('insurance-form');
     const formData = new FormData(form);
-    let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
 
-    // Voeg alle formuliervelden toe aan de e-mailbody
-    for (let [key, value] of formData.entries()) {
-        if (value && value !== 'on') { // 'on' uitsluiten voor checkboxes
-            emailBody += `${key}: ${value}\n`;
-        }
-    }
-
-    // Voeg de handtekening toe als data-URL
+    // Voeg de handtekening toe als base64
     const signatureData = signaturePad.toDataURL('image/png');
     if (!signaturePad.isEmpty()) {
-        emailBody += `\nDigitale handtekening (als afbeelding): ${signatureData}\n`;
-    } else {
-        emailBody += "\nGeen handtekening toegevoegd.\n";
+        formData.append('signature', signatureData);
     }
 
-    // Maak de mailto-link
-    const subject = encodeURIComponent("Aanvraagformulier Dekkerautoverzekering");
-    const body = encodeURIComponent(emailBody);
-    const mailtoLink = `mailto:rbuijs@klaasvis.nl?subject=${subject}&body=${body}`;
-
-    // Open de e-mailclient
-    window.location.href = mailtoLink;
-
-    // Toon succesbericht
-    document.getElementById('resultText').innerHTML = `
-        <strong>Uw aanvraag is verzonden!</strong><br><br>
-        Uw e-mailclient is geopend met de ingevulde gegevens. Vergeet niet de e-mail te verzenden!
-    `;
-    document.getElementById('resultMessage').style.display = 'block';
+    // Verstuur naar de backend via fetch
+    fetch('send_email.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('resultText').innerHTML = data.message;
+        document.getElementById('resultMessage').style.display = 'block';
+    })
+    .catch(error => {
+        document.getElementById('resultText').innerHTML = `
+            Er is een fout opgetreden bij het verzenden van uw aanvraag. Probeer het later opnieuw.
+        `;
+        document.getElementById('resultMessage').style.display = 'block';
+        console.error('Error:', error);
+    });
 }
 
 // Behandel de keuze van de gebruiker
@@ -1127,7 +1124,7 @@ function handleSubmit(isConfirmed) {
 
 // Koppel de submit-knop aan de modal
 document.getElementById('submitBtn').addEventListener('click', showModal);
-
+</script>
     </script>
     <!-- Popup Modal -->
     <div id="confirmationModal" class="modal">
