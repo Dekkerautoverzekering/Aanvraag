@@ -387,7 +387,114 @@
         .content {
             min-height: 150vh;
         }
-    </style>
+   <style>
+    /* Originele stijlen behouden voor desktop */
+    body {
+        padding: 20px; /* Originele waarde */
+    }
+
+    .form-container {
+        max-width: 800px; /* Originele waarde */
+        padding: 20px; /* Originele waarde */
+    }
+
+    .signature-pad {
+        width: 90vw;
+        max-width: 400px; /* Originele waarde */
+        height: 200px; /* Originele waarde */
+    }
+
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px; /* Originele waarde */
+    }
+
+    /* Mobiele aanpassingen alleen in media query */
+    @media (max-width: 600px) {
+        body {
+            padding: 10px;
+        }
+
+        .form-container {
+            max-width: 100%;
+            padding: 15px;
+        }
+
+        .logo img {
+            max-width: 100%;
+        }
+
+        .step-indicators {
+            flex-direction: column;
+        }
+
+        .step {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+        }
+
+        .switch {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .switch-label {
+            width: 100%;
+            padding: 8px 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .navigation-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navigation-buttons button {
+            width: 100%;
+            padding: 8px 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .terug-button {
+            order: 2;
+        }
+
+        .prev-button {
+            order: 1;
+        }
+
+        .next-button {
+            order: 3;
+        }
+
+        .signature-pad {
+            width: 100%;
+            max-width: 300px;
+            height: 150px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 400px;
+            padding: 15px;
+        }
+    }
+</style>
 </head>
 <body>
     <div class="logo">
