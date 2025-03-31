@@ -311,190 +311,152 @@
         }
         textarea {
             width: 100%;
-            height: 100px;
-            resize: none;
-        }
+            height: 100Radios button {
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            .belanghebbende-container {
+                margin-bottom: 15px;
+            }
+            .promo {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background-color: #ffcc00;
+                color: #333;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                max-width: 300px;
+                font-size: 14px;
+            }
+            .promo img {
+                max-width: 30px;
+                margin-right: 10px;
+                vertical-align: middle;
+            }
+            .promo strong {
+                font-size: 16px;
+                display: block;
+                margin-bottom: 5px;
+            }
+            .content {
+                min-height: 150vh;
+            }
+        /* Originele stijlen behouden voor desktop */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"], 
-        input[type="number"], 
-        input[type="date"], 
-        select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        input[type="radio"] {
-            margin-right: 5px;
-        }
-        .switch {
-            display: flex;
-            align-items: center;
-        }
-        .switch-label {
-            margin-right: 20px;
-        }
-        .conditional {
-            display: none;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .belanghebbende-container {
-            margin-bottom: 15px;
-        }
-        .promo {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #ffcc00;
-            color: #333;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 300px;
-            font-size: 14px;
-        }
-        .promo img {
-            max-width: 30px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        .promo strong {
-            font-size: 16px;
-            display: block;
-            margin-bottom: 5px;
-        }
-        .content {
-            min-height: 150vh;
-        }
-   <style>
-    /* Originele stijlen behouden voor desktop */
-    body {
-        padding: 20px; /* Originele waarde */
-    }
-
-    .form-container {
-        max-width: 800px; /* Originele waarde */
-        padding: 20px; /* Originele waarde */
-    }
-
-    .signature-pad {
-        width: 90vw;
-        max-width: 400px; /* Originele waarde */
-        height: 200px; /* Originele waarde */
-    }
-
-    .navigation-buttons {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px; /* Originele waarde */
-    }
-
-    /* Mobiele aanpassingen alleen in media query */
-    @media (max-width: 600px) {
-        body {
-            padding: 10px;
+            padding: 20px; /* Originele waarde */
         }
 
         .form-container {
-            max-width: 100%;
-            padding: 15px;
-        }
-
-        .logo img {
-            max-width: 100%;
-        }
-
-        .step-indicators {
-            flex-direction: column;
-        }
-
-        .step {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .form-group label {
-            font-size: 14px;
-        }
-
-        .switch {
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .switch-label {
-            width: 100%;
-            padding: 8px 15px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .navigation-buttons {
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navigation-buttons button {
-            width: 100%;
-            padding: 8px 15px;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .terug-button {
-            order: 2;
-        }
-
-        .prev-button {
-            order: 1;
-        }
-
-        .next-button {
-            order: 3;
+            max-width: 800px; /* Originele waarde */
+            padding: 20px; /* Originele waarde */
         }
 
         .signature-pad {
-            width: 100%;
-            max-width: 300px;
-            height: 150px;
+            width: 90vw;
+            max-width: 400px; /* Originele waarde */
+            height: 200px; /* Originele waarde */
         }
 
-        .submit-button {
-            width: 100%;
-            padding: 10px;
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px; /* Originele waarde */
         }
 
-        .modal-content {
-            width: 90%;
-            max-width: 400px;
-            padding: 15px;
+        /* Mobiele aanpassingen alleen in media query */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .form-container {
+                max-width: 100%;
+                padding: 15px;
+            }
+
+            .logo img {
+                max-width: 100%;
+            }
+
+            .step-indicators {
+                flex-direction: column;
+            }
+
+            .step {
+                width: 100%;
+                padding: 10px;
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .switch {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .switch-label {
+                width: 100%;
+                padding: 8px 15px;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .navigation-buttons button {
+                width: 100%;
+                padding: 8px 15px;
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+            .terug-button {
+                order: 2;
+            }
+
+            .prev-button {
+                order: 1;
+            }
+
+            .next-button {
+                order: 3;
+            }
+
+            .signature-pad {
+                width: 100%;
+                max-width: 300px;
+                height: 150px;
+            }
+
+            .submit-button {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .modal-content {
+                width: 90%;
+                max-width: 400px;
+                padding: 15px;
+            }
         }
-    }
-</style>
+    </style>
 </head>
 <body>
     <div class="logo">
@@ -568,6 +530,11 @@
                 <div class="form-group">
                     <label for="iban">Uw IBAN-rekeningnummer:</label>
                     <input type="text" id="iban" name="iban" required>
+                </div>
+                <!-- Toegevoegd: Verplicht e-mailveld -->
+                <div class="form-group">
+                    <label for="email">E-mailadres:</label>
+                    <input type="email" id="email" name="email" required>
                 </div>
             </div>
             <div class="footer-logo">
@@ -1107,8 +1074,28 @@
                             });
                         }
 
-                        // Toon de modal
+                        // Toon de modal met samenvatting
                         function showModal() {
+                            const form = document.getElementById('insurance-form');
+                            const formData = new FormData(form);
+                            let summaryHtml = "<strong>Ingevulde gegevens:</strong><ul>";
+
+                            // Maak een samenvatting van de ingevulde gegevens
+                            for (let [key, value] of formData.entries()) {
+                                if (value && value !== 'on') {
+                                    summaryHtml += `<li>${key}: ${value}</li>`;
+                                }
+                            }
+                            summaryHtml += "</ul>";
+
+                            // Voeg handtekeningstatus toe
+                            if (!signaturePad.isEmpty()) {
+                                summaryHtml += "<p><strong>Handtekening:</strong> Aanwezig</p>";
+                            } else {
+                                summaryHtml += "<p><strong>Handtekening:</strong> Niet aanwezig</p>";
+                            }
+
+                            document.getElementById('summary').innerHTML = summaryHtml;
                             document.getElementById('confirmationModal').style.display = 'block';
                         }
 
@@ -1127,6 +1114,7 @@
                                 const form = document.getElementById('insurance-form');
                                 const formData = new FormData(form);
                                 let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
+                                const email = formData.get('email'); // Haal het e-mailadres op
 
                                 // Verzamel alle formuliergegevens
                                 for (let [key, value] of formData.entries()) {
@@ -1145,12 +1133,14 @@
 
                                 // Verstuur via EmailJS
                                 emailjs.send("service_37glay9", "template_igkvytp", {
-                                    message: emailBody
+                                    message: emailBody,
+                                    reply_to: email // Gebruik het ingevulde e-mailadres als reply-to
                                 })
                                 .then(() => {
                                     resultTextElement.innerHTML = `
                                         <strong>Uw aanvraag is verzonden!</strong><br><br>
                                         Wij danken u voor het in ons gestelde vertrouwen.<br><br>
+                                        Een bevestiging is gestuurd naar ${email}.<br><br>
                                         Heeft u het online aanvraagformulier volledig ingevuld, dan is uw auto per gewenste ingangsdatum in voorlopige dekking genomen en ontvangt u binnen ca. 10 werkdagen de betreffende polisstukken.<br><br>
                                         Is het online aanvraagformulier niet volledig of onjuist ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
                                     `;
@@ -1177,10 +1167,12 @@
                 <!-- Popup Modal -->
                 <div id="confirmationModal" class="modal">
                     <div class="modal-content">
-                        <p>Zijn alle antwoorden ingevuld?</p>
+                        <h3>Controleer uw gegevens</h3>
+                        <p>Hieronder een samenvatting van uw ingevulde gegevens. Kloppen deze?</p>
+                        <div id="summary" class="form-confirm"></div>
                         <div class="modal-buttons">
-                            <button onclick="handleSubmit(true)">Ja</button>
-                            <button onclick="handleSubmit(false)">Nee</button>
+                            <button onclick="handleSubmit(true)">Ja, verzenden</button>
+                            <button onclick="handleSubmit(false)">Nee, aanpassen</button>
                         </div>
                     </div>
                 </div>
