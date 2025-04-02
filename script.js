@@ -315,6 +315,12 @@ function handleSubmit(isConfirmed) {
         const email = formData.get('email');
         const aanschaf = formData.get('aanschaf');
 
+        // Debug: controleer of email correct is ingevuld
+        console.log("Emailadres uit formulier:", email);
+        if (!email) {
+            console.error("FOUT: Geen e-mailadres opgehaald uit het formulier!");
+        }
+
         for (let [key, value] of formData.entries()) {
             if (value && value !== 'on') {
                 if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf === 'particulier') {
@@ -334,6 +340,7 @@ function handleSubmit(isConfirmed) {
             console.log("Service e-mail succesvol verzonden");
             return emailjs.send("service_37glay9", "template_vjmqckj", {
                 to_email: email,
+                email: email, // Fallback voor als template 'email' verwacht
                 message: "Bedankt voor uw aanvraag!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
             });
         })
@@ -348,6 +355,17 @@ function handleSubmit(isConfirmed) {
             document.getElementById('resultMessage').style.display = 'block';
             document.getElementById('insurance-form').style.display = 'none';
             document.querySelector('.navigation-buttons').style.display = 'none';
+
+            // Toon de loading-screen en verberg het resultaatbericht na korte tijd
+            setTimeout(() => {
+                document.getElementById('resultMessage').style.display = 'none';
+                document.getElementById('loadingScreen').style.display = 'flex';
+                
+                // Redirect naar www.klaasvis.nl na 3 seconden
+                setTimeout(() => {
+                    window.location.href = 'https://www.klaasvis.nl';
+                }, 3000);
+            }, 2000); // Laat het succesbericht 2 seconden zien voordat de loading-screen verschijnt
         })
         .catch((error) => {
             console.error("Fout bij verzenden:", error);
