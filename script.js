@@ -3,23 +3,27 @@ showStep(currentStep);
 
 function showStep(n) {
     let steps = document.getElementsByClassName("step-content");
-    steps[n].style.display = "block";
+    for (let i = 0; i < steps.length; i++) {
+        steps[i].style.display = 'none';
+    }
+    steps[n].style.display = 'block';
+    
     if (n == 0) {
-        document.getElementById("prevBtn").style.display = "none";
+        document.getElementById("prevBtn").style.display = 'none';
     } else {
-        document.getElementById("prevBtn").style.display = "inline";
+        document.getElementById("prevBtn").style.display = 'inline';
     }
     if (n == (steps.length - 1)) {
-        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("nextBtn").style.display = 'none';
     } else {
-        document.getElementById("nextBtn").style.display = "inline";
+        document.getElementById("nextBtn").style.display = 'inline';
     }
     updateStepIndicator(n);
 }
 
 function nextPrev(n) {
     let steps = document.getElementsByClassName("step-content");
-    steps[currentStep].style.display = "none";
+    steps[currentStep].style.display = 'none';
     currentStep = currentStep + n;
     if (currentStep >= steps.length) {
         return false; // Geen standaard submit meer
@@ -264,25 +268,22 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Modal en verzend logica
-function showModal(event) {
-    event.preventDefault(); // Voorkom standaard formulierverzending
+function showModal() {
     const form = document.getElementById('insurance-form');
     const formData = new FormData(form);
     let summaryHtml = "<strong>Ingevulde gegevens:</strong><ul>";
-    const aanschaf = formData.get('aanschaf'); // Haal de waarde van 'aanschaf' op
+    const aanschaf = formData.get('aanschaf');
 
     for (let [key, value] of formData.entries()) {
         if (value && value !== 'on') {
-            // Alleen 'rechtsvorm', 'rechtsvorm-omschrijving' en UBO-gegevens toevoegen als 'aanschaf' zakelijk is
             if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
-                continue; // Sla deze velden over als 'aanschaf' niet 'zakelijk' is
+                continue;
             }
             summaryHtml += `<li>${key}: ${value}</li>`;
         }
     }
     summaryHtml += "</ul>";
 
-    // Handtekening toevoegen aan de samenvatting in de modal
     if (!signaturePad.isEmpty()) {
         summaryHtml += "<p><strong>Handtekening:</strong> Aanwezig</p>";
     } else {
@@ -307,15 +308,17 @@ function handleSubmit(isConfirmed) {
         const formData = new FormData(form);
         let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
         const email = formData.get('email');
+        const aanschaf = formData.get('aanschaf');
 
-        // Verzamel alle formuliergegevens
         for (let [key, value] of formData.entries()) {
             if (value && value !== 'on') {
+                if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf === 'particulier') {
+                    continue;
+                }
                 emailBody += `${key}: ${value}\n`;
             }
         }
 
-        // Log stap 1: Start verzending
         console.log("Start verzending...");
 
         // E-mail naar jouw service
@@ -327,8 +330,8 @@ function handleSubmit(isConfirmed) {
             console.log("Service e-mail succesvol verzonden");
             // E-mail naar de klant
             return emailjs.send("service_37glay9", "template_vjmqckj", {
-                message: emailBody,
-                to_email: email
+                to_email: email, // Expliciet 'to_email' gebruiken voor de klant
+                message: "Bedankt voor uw aanvraag!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
             });
         })
         .then(() => {
@@ -361,7 +364,39 @@ function handleSubmit(isConfirmed) {
 
 // Voeg event listener toe aan de submit-knop
 document.querySelector('.submit-button').addEventListener('click', function(event) {
-    event.preventDefault(); // Voorkom herladen
+    event.preventDefault();
     console.log("Klik op verzenden, modal wordt geopend");
-    showModal(event);
+    showModal();
 });
+
+// Chatbase chatbot integratie
+(function() {
+    if (!window.chatbase || window.chatbase('getState') !== 'initialized') {
+        window.chatbase = (...args) => {
+            if (!window.chatbase.q) {
+                window.chatbase.q = [];
+            }
+            window.chatbase.q.push(args);
+        };
+        window.chatbase = new Proxy(window.chatbase, {
+            get(target, prop) {
+                if (prop === 'q') {
+                    return target.q;
+                }
+                return (...args) => target(prop, ...args);
+            }
+        });
+    }
+    const onLoad = function() {
+        const script = document.createElement('script');
+        script.src = 'https://www.chatbase.co/embed.min.js';
+        script.id = 'C60jEJW_QuVD7X3vE5rzE';
+        script.setAttribute('domain', 'www.chatbase.co');
+        document.body.appendChild(script);
+    };
+    if (document.readyState === 'complete') {
+        onLoad();
+    } else {
+        window.addEventListener('load', onLoad);
+    }
+})();
