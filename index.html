@@ -86,7 +86,6 @@
                     <label for="iban">Uw IBAN-rekeningnummer:</label>
                     <input type="text" id="iban" name="iban" autocomplete="iban" required>
                 </div>
-                <!-- E-mailveld is verwijderd van hier -->
             </div>
             <div class="footer-logo">
             </div>
@@ -469,6 +468,11 @@
                 <button type="button" class="next-button" id="nextBtn" onclick="nextPrev(1)">Volgende</button>
             </div>
         </form>
+        <!-- Loading Screen -->
+        <div id="loadingScreen" class="loading-screen" style="display: none;">
+            <div class="loader"></div>
+            <p>Uw aanvraag wordt verwerkt, u wordt doorgestuurd...</p>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
