@@ -265,6 +265,11 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleAdditionalInfo('conflict', 'conflict-info');
     toggleAdditionalInfo('beslag', 'beslag-info');
     toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
+
+    // Stel de standaarddatum in voor "datum-aanvraag"
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; // Formaat: YYYY-MM-DD
+    document.getElementById('datum-aanvraag').value = formattedDate;
 });
 
 // Modal en verzend logica
@@ -321,16 +326,14 @@ function handleSubmit(isConfirmed) {
 
         console.log("Start verzending...");
 
-        // E-mail naar jouw service
         emailjs.send("service_37glay9", "template_igkvytp", {
             message: emailBody,
             reply_to: email
         })
         .then(() => {
             console.log("Service e-mail succesvol verzonden");
-            // E-mail naar de klant
             return emailjs.send("service_37glay9", "template_vjmqckj", {
-                to_email: email, // Expliciet 'to_email' gebruiken voor de klant
+                to_email: email,
                 message: "Bedankt voor uw aanvraag!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
             });
         })
