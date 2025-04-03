@@ -404,15 +404,36 @@ button:hover {
         max-width: 100%;
     }
 
+/* Mobiele weergave (schermen kleiner dan 768px) */
+@media (max-width: 768px) {
     .step-indicators {
-        flex-direction: column;
+        flex-wrap: wrap; /* Laat blokken wrappen als ze niet passen */
+        justify-content: center; /* Centreer de blokken horizontaal */
+        padding: 10px; /* Voeg wat padding toe aan de container */
     }
 
     .step {
-        width: 100%;
-        padding: 10px;
-        font-size: 14px;
-        margin-bottom: 5px;
+        flex: 0 1 45%; /* Elke stap neemt max 45% van de breedte, zodat 2 per rij passen */
+        margin: 5px; /* Kleinere marge voor compactheid */
+        font-size: 14px; /* Kleinere tekst voor mobiel */
+        padding: 8px; /* Iets minder padding */
+        box-sizing: border-box; /* Zorg dat padding binnen breedte blijft */
+    }
+
+    /* Optioneel: Als je wilt dat de actieve stap visueel opvalt */
+    .step.active-step {
+        flex: 0 1 45%; /* Houd dezelfde breedte als andere stappen */
+    }
+
+
+/* Extra kleine schermen (bijv. < 480px) */
+@media (max-width: 480px) {
+    .step {
+        flex: 0 1 100%; /* Elke stap neemt volledige breedte */
+        margin: 5px 0; /* Alleen verticale marge */
+        font-size: 12px; /* Nog kleinere tekst */
+    
+
     }
 
     .form-group label {
