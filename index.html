@@ -112,26 +112,26 @@
                 <div id="dekking-omschrijving" class="conditional hidden">
                     <div class="form-group">
                         <label>Gewenste dekking:</label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="wa" name="dekking-type" value="wa" checked disabled>
-                                <label for="wa" class="checkbox-label">WA (verplicht)</label>
+                        <div class="coverage-options">
+                            <div class="main-coverage">
+                                <h4>Hoofddekking</h4>
+                                <div class="switch coverage-switch">
+                                    <input type="radio" id="wa" name="main_coverage" value="wa" checked disabled>
+                                    <label for="wa" class="switch-label always-selected">WA <span class="info-icon">ℹ️</span><span class="tooltip-text">Biedt alleen dekking bij schade aan derden en is wettelijk verplicht.</span></label>
+                                    <input type="radio" id="casco-beperkt" name="main_coverage" value="casco-beperkt">
+                                    <label for="casco-beperkt" class="switch-label">Casco Beperkt <span class="info-icon">ℹ️</span><span class="tooltip-text">Casco Beperkt biedt dekking voor schade aan het eigen voertuig als gevolg van o.a. brand, diefstal, inbraak, ruitschade.</span></label>
+                                    <input type="radio" id="casco-compleet" name="main_coverage" value="casco-compleet">
+                                    <label for="casco-compleet" class="switch-label">Casco Compleet <span class="info-icon">ℹ️</span><span class="tooltip-text">Ook wel bekend als All Risk, biedt dekking voor schade aan uw eigen voertuig als gevolg van alle van buiten komende onheilen.</span></label>
+                                </div>
                             </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="casco-compleet" name="dekking-type" value="casco-compleet">
-                                <label for="casco-compleet" class="checkbox-label">Casco Compleet (Allrisk)</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="beperkt-casco" name="dekking-type" value="beperkt-casco">
-                                <label for="beperkt-casco" class="checkbox-label">Beperkt Casco</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="schadeverzekering" name="dekking-type" value="schadeverzekering">
-                                <label for="schadeverzekering" class="checkbox-label">Schadeverzekering voor Inzittenden</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="rechtsbijstand" name="dekking-type" value="rechtsbijstand">
-                                <label for="rechtsbijstand" class="checkbox-label">Rechtsbijstand Verkeer</label>
+                            <div class="extra-options">
+                                <h4>Extra opties</h4>
+                                <div class="switch coverage-switch">
+                                    <input type="checkbox" id="schadeverzekering" name="extra_schadeverzekering">
+                                    <label for="schadeverzekering" class="switch-label">Schadeverzekering voor Inzittenden <span class="info-icon">ℹ️</span><span class="tooltip-text">Dekt zowel materiële als immateriële schade van de bestuurder en inzittenden.</span></label>
+                                    <input type="checkbox" id="rechtsbijstand" name="extra_rechtsbijstand">
+                                    <label for="rechtsbijstand" class="switch-label">Rechtsbijstand Verkeer <span class="info-icon">ℹ️</span><span class="tooltip-text">Biedt juridische bijstand omtrent een geschil met betrekking tot uw motorrijtuig.</span></label>
+                                </div>
                             </div>
                         </div>
                     </div>
