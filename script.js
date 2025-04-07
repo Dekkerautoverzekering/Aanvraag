@@ -81,6 +81,25 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         dekkingOmschrijving.style.display = 'none';
     }
+
+    // Tooltip-functionaliteit voor info-iconen
+    document.querySelectorAll('.info-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const tooltip = this.nextElementSibling;
+            if (tooltip && tooltip.classList.contains('tooltip-text')) {
+                tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+    });
+
+    // Sluit tooltips als er buiten wordt geklikt
+    document.addEventListener('click', function(event) {
+        if (!event.target.classList.contains('info-icon')) {
+            document.querySelectorAll('.tooltip-text').forEach(tooltip => {
+                tooltip.style.display = 'none';
+            });
+        }
+    });
 });
 
 // Schade-ervaring en schadevrije jaren logica
@@ -279,12 +298,36 @@ function showModal() {
     let summaryHtml = "<strong>Ingevulde gegevens:</strong><ul>";
     const aanschaf = formData.get('aanschaf');
 
+    // Verzamel dekking specifiek voor weergave
+    let dekkingText = '';
+    const dekkingAnders = formData.get('dekking') === 'anders';
+    if (dekkingAnders) {
+        const mainCoverage = formData.get('main_coverage');
+        dekkingText += `Hoofddekking: ${mainCoverage || 'WA'}`;
+        const extraOptions = [];
+        if (formData.get('extra_schadeverzekering')) extraOptions.push('Schadeverzekering voor Inzittenden');
+        if (formData.get('extra_rechtsbijstand')) extraOptions.push('Rechtsbijstand Verkeer');
+        if (extraOptions.length > 0) {
+            dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
+        }
+    } else {
+        dekkingText = 'Conform verzekeringsvoorstel';
+    }
+
     for (let [key, value] of formData.entries()) {
         if (value && value !== 'on') {
             if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
                 continue;
             }
-            summaryHtml += `<li>${key}: ${value}</li>`;
+            // Overslaan van dekking-details als het niet 'anders' is
+            if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
+                continue;
+            }
+            if (key === 'dekking') {
+                summaryHtml += `<li>Gewenste dekking: ${dekkingText}</li>`;
+            } else {
+                summaryHtml += `<li>${key}: ${value}</li>`;
+            }
         }
     }
     summaryHtml += "</ul>";
@@ -321,12 +364,35 @@ function handleSubmit(isConfirmed) {
             console.error("FOUT: Geen e-mailadres opgehaald uit het formulier!");
         }
 
+        // Verzamel dekking specifiek voor e-mail
+        let dekkingText = '';
+        const dekkingAnders = formData.get('dekking') === 'anders';
+        if (dekkingAnders) {
+            const mainCoverage = formData.get('main_coverage');
+            dekkingText += `Hoofddekking: ${mainCoverage || 'WA'}`;
+            const extraOptions = [];
+            if (formData.get('extra_schadeverzekering')) extraOptions.push('Schadeverzekering voor Inzittenden');
+            if (formData.get('extra_rechtsbijstand')) extraOptions.push('Rechtsbijstand Verkeer');
+            if (extraOptions.length > 0) {
+                dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
+            }
+        } else {
+            dekkingText = 'Conform verzekeringsvoorstel';
+        }
+
         for (let [key, value] of formData.entries()) {
             if (value && value !== 'on') {
                 if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf === 'particulier') {
                     continue;
                 }
-                emailBody += `${key}: ${value}\n`;
+                if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
+                    continue;
+                }
+                if (key === 'dekking') {
+                    emailBody += `Gewenste dekking: ${dekkingText}\n`;
+                } else {
+                    emailBody += `${key}: ${value}\n`;
+                }
             }
         }
 
