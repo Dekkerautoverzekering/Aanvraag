@@ -108,6 +108,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 5px;
+    position: relative; /* Voor tooltip-positionering */
 }
 
 .form-group input, .form-group select, .form-group textarea {
@@ -160,6 +161,10 @@ body {
     display: none;
 }
 
+.switch input[type="checkbox"] {
+    display: none; /* Toegevoegd voor checkboxes in toggle-stijl */
+}
+
 .switch-label {
     cursor: pointer;
     padding: 10px 20px;
@@ -168,7 +173,8 @@ body {
     margin-right: 10px;
 }
 
-.switch input[type="radio"]:checked + .switch-label {
+.switch input[type="radio"]:checked + .switch-label,
+.switch input[type="checkbox"]:checked + .switch-label {
     background-color: #28a745;
     color: white;
 }
@@ -389,6 +395,59 @@ button:hover {
     min-height: 150vh;
 }
 
+/* Nieuwe stijlen voor dekking-toggle-knoppen */
+.coverage-options {
+    margin-top: 10px;
+}
+
+.main-coverage, .extra-options {
+    margin-bottom: 20px;
+}
+
+.main-coverage h4, .extra-options h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.coverage-switch .switch-label {
+    padding: 8px 15px; /* Compacter voor dekkingen */
+    font-size: 14px;
+}
+
+.always-selected {
+    background-color: #28a745; /* Altijd groen */
+    color: white;
+    cursor: default; /* Geen pointer om aan te geven dat het niet klikbaar is */
+}
+
+.info-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 10;
+    max-width: 200px;
+    white-space: normal;
+    top: 100%; /* Onder het icoon */
+    left: 0;
+    transform: translateY(5px); /* Kleine offset */
+}
+
+.switch-label .tooltip-text {
+    top: calc(100% + 5px); /* Onder de switch-label */
+    left: 50%;
+    transform: translateX(-50%); /* Gecentreerd onder het icoon */
+}
+
 /* Mobiele aanpassingen */
 @media (max-width: 600px) {
     body {
@@ -404,36 +463,15 @@ button:hover {
         max-width: 100%;
     }
 
-/* Mobiele weergave (schermen kleiner dan 768px) */
-@media (max-width: 768px) {
     .step-indicators {
-        flex-wrap: wrap; /* Laat blokken wrappen als ze niet passen */
-        justify-content: center; /* Centreer de blokken horizontaal */
-        padding: 10px; /* Voeg wat padding toe aan de container */
+        flex-direction: column;
     }
 
     .step {
-        flex: 0 1 45%; /* Elke stap neemt max 45% van de breedte, zodat 2 per rij passen */
-        margin: 5px; /* Kleinere marge voor compactheid */
-        font-size: 14px; /* Kleinere tekst voor mobiel */
-        padding: 8px; /* Iets minder padding */
-        box-sizing: border-box; /* Zorg dat padding binnen breedte blijft */
-    }
-
-    /* Optioneel: Als je wilt dat de actieve stap visueel opvalt */
-    .step.active-step {
-        flex: 0 1 45%; /* Houd dezelfde breedte als andere stappen */
-    }
-
-
-/* Extra kleine schermen (bijv. < 480px) */
-@media (max-width: 480px) {
-    .step {
-        flex: 0 1 100%; /* Elke stap neemt volledige breedte */
-        margin: 5px 0; /* Alleen verticale marge */
-        font-size: 12px; /* Nog kleinere tekst */
-    
-
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        margin-bottom: 5px;
     }
 
     .form-group label {
@@ -450,6 +488,24 @@ button:hover {
         padding: 8px 15px;
         font-size: 14px;
         text-align: center;
+    }
+
+    .coverage-switch .switch-label {
+        padding: 8px 10px; /* Nog compacter op mobiel */
+        font-size: 12px; /* Kleiner lettertype */
+    }
+
+    .tooltip-text {
+        max-width: 90%; /* Beperk breedte op mobiel */
+        left: 0; /* Links uitlijnen op mobiel */
+        transform: none; /* Geen centrering */
+        font-size: 11px; /* Kleiner op mobiel */
+    }
+
+    .switch-label .tooltip-text {
+        left: 10px; /* Kleine offset vanaf links */
+        transform: none; /* Geen centrering */
+        width: calc(100% - 20px); /* Volle breedte minus padding */
     }
 
     .navigation-buttons {
@@ -493,39 +549,42 @@ button:hover {
         max-width: 400px;
         padding: 15px;
     }
-	.loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
 
-.loader {
-    border: 8px solid #f3f3f3; /* Lichtgrijs */
-    border-top: 8px solid #3498db; /* Blauw */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-}
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+    .loader {
+        border: 8px solid #f3f3f3; /* Lichtgrijs */
+        border-top: 8px solid #3498db; /* Blauw */
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
 
-.loading-screen p {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #333;
-}
-.hidden {
-    display: none;
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .loading-screen p {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+    }
+
+    .hidden {
+        display: none;
+    }
 }
