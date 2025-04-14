@@ -108,7 +108,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    position: relative; /* Voor tooltip-positionering */
+    position: relative;
 }
 
 .form-group input, .form-group select, .form-group textarea {
@@ -162,7 +162,7 @@ body {
 }
 
 .switch input[type="checkbox"] {
-    display: none; /* Toegevoegd voor checkboxes in toggle-stijl */
+    display: none;
 }
 
 .switch-label {
@@ -410,14 +410,14 @@ button:hover {
 }
 
 .coverage-switch .switch-label {
-    padding: 8px 15px; /* Compacter voor dekkingen */
+    padding: 8px 15px;
     font-size: 14px;
 }
 
 .always-selected {
-    background-color: #28a745; /* Altijd groen */
+    background-color: #28a745;
     color: white;
-    cursor: default; /* Geen pointer om aan te geven dat het niet klikbaar is */
+    cursor: default;
 }
 
 .info-icon {
@@ -437,15 +437,59 @@ button:hover {
     z-index: 10;
     max-width: 200px;
     white-space: normal;
-    top: 100%; /* Onder het icoon */
+    top: 100%;
     left: 0;
-    transform: translateY(5px); /* Kleine offset */
+    transform: translateY(5px);
 }
 
 .switch-label .tooltip-text {
-    top: calc(100% + 5px); /* Onder de switch-label */
+    top: calc(100% + 5px);
     left: 50%;
-    transform: translateX(-50%); /* Gecentreerd onder het icoon */
+    transform: translateX(-50%);
+}
+
+/* Stijlen voor loading screens (algemeen, voor alle apparaten) */
+#page-loading-screen,
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+.page-loader,
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+.loading-screen p {
+    font-size: 18px;
+    color: #333;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#page-loading-screen.hidden,
+.loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Mobiele aanpassingen */
@@ -491,21 +535,21 @@ button:hover {
     }
 
     .coverage-switch .switch-label {
-        padding: 8px 10px; /* Nog compacter op mobiel */
-        font-size: 12px; /* Kleiner lettertype */
+        padding: 8px 10px;
+        font-size: 12px;
     }
 
     .tooltip-text {
-        max-width: 90%; /* Beperk breedte op mobiel */
-        left: 0; /* Links uitlijnen op mobiel */
-        transform: none; /* Geen centrering */
-        font-size: 11px; /* Kleiner op mobiel */
+        max-width: 90%;
+        left: 0;
+        transform: none;
+        font-size: 11px;
     }
 
     .switch-label .tooltip-text {
-        left: 10px; /* Kleine offset vanaf links */
-        transform: none; /* Geen centrering */
-        width: calc(100% - 20px); /* Volle breedte minus padding */
+        left: 10px;
+        transform: none;
+        width: calc(100% - 20px);
     }
 
     .navigation-buttons {
@@ -550,6 +594,7 @@ button:hover {
         padding: 15px;
     }
 
+    /* Mobiele stijlen voor loading screens (onveranderd van jouw origineel) */
     .loading-screen {
         position: fixed;
         top: 0;
@@ -565,26 +610,17 @@ button:hover {
     }
 
     .loader {
-        border: 8px solid #f3f3f3; /* Lichtgrijs */
-        border-top: 8px solid #3498db; /* Blauw */
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
         border-radius: 50%;
         width: 60px;
         height: 60px;
         animation: spin 1s linear infinite;
     }
 
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
     .loading-screen p {
         margin-top: 20px;
         font-size: 18px;
         color: #333;
-    }
-
-    .hidden {
-        display: none;
     }
 }
