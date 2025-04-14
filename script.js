@@ -348,10 +348,14 @@ function closeModal() {
 }
 
 function handleSubmit(isConfirmed) {
-    document.getElementById('confirmationModal').style.display = 'none';
+    const loadingScreen = document.getElementById('loadingScreen');
     const resultTextElement = document.getElementById('resultText');
+    document.getElementById('confirmationModal').style.display = 'none';
 
     if (isConfirmed) {
+        // Toon loading screen zodra verzending begint
+        loadingScreen.style.display = 'flex';
+
         const form = document.getElementById('insurance-form');
         const formData = new FormData(form);
         let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
@@ -362,6 +366,13 @@ function handleSubmit(isConfirmed) {
         console.log("Emailadres uit formulier:", email);
         if (!email) {
             console.error("FOUT: Geen e-mailadres opgehaald uit het formulier!");
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                resultTextElement.innerHTML = 'FOUT: Geen e-mailadres opgegeven. Vul een geldig e-mailadres in.';
+                document.getElementById('resultMessage').style.display = 'block';
+            }, 300);
+            return;
         }
 
         // Verzamel dekking specifiek voor e-mail
@@ -412,40 +423,55 @@ function handleSubmit(isConfirmed) {
         })
         .then(() => {
             console.log("Klant e-mail succesvol verzonden");
-            resultTextElement.innerHTML = `
-                <strong>Uw aanvraag is verzonden!</strong><br><br>
-                Wij danken u voor het vertrouwen.<br>
-                Een bevestiging is gestuurd naar ${email}.<br>
-                Uw auto is in voorlopige dekking per ingangsdatum. Binnen 10 werkdagen ontvangt u de polisstukken.
-            `;
-            document.getElementById('resultMessage').style.display = 'block';
-            document.getElementById('insurance-form').style.display = 'none';
-            document.querySelector('.navigation-buttons').style.display = 'none';
-
-            // Toon de loading-screen en verberg het resultaatbericht na korte tijd
+            // Verberg loading screen met fade-out
+            loadingScreen.classList.add('hidden');
             setTimeout(() => {
-                document.getElementById('resultMessage').style.display = 'none';
-                document.getElementById('loadingScreen').style.display = 'flex';
-                
-                // Redirect naar www.klaasvis.nl na 3 seconden
+                loadingScreen.style.display = 'none';
+                // Toon succesbericht
+                resultTextElement.innerHTML = `
+                    <strong>Uw aanvraag is verzonden!</strong><br><br>
+                    Wij danken u voor het vertrouwen.<br>
+                    Een bevestiging is gestuurd naar ${email}.<br>
+                    Uw auto is in voorlopige dekking per ingangsdatum. Binnen 10 werkdagen ontvangt u de polisstukken.
+                `;
+                document.getElementById('resultMessage').style.display = 'block';
+                document.getElementById('insurance-form').style.display = 'none';
+                document.querySelector('.navigation-buttons').style.display = 'none';
+
+                // Toon loading screen opnieuw voor redirect
                 setTimeout(() => {
-                    window.location.href = 'https://www.klaasvis.nl';
-                }, 3000);
-            }, 2000); // Laat het succesbericht 2 seconden zien voordat de loading-screen verschijnt
+                    loadingScreen.style.display = 'flex';
+                    loadingScreen.classList.remove('hidden');
+                    // Redirect naar www.klaasvis.nl na 3 seconden
+                    setTimeout(() => {
+                        window.location.href = 'https://www.klaasvis.nl';
+                    }, 3000);
+                }, 2000); // Laat succesbericht 2 seconden zien
+            }, 300);
         })
         .catch((error) => {
             console.error("Fout bij verzenden:", error);
-            resultTextElement.innerHTML = `
-                Er is een fout opgetreden: ${error.text}<br>
-                Controleer de console (F12) voor meer info.
-            `;
-            document.getElementById('resultMessage').style.display = 'block';
+            // Verberg loading screen met fade-out
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                resultTextElement.innerHTML = `
+                    Er is een fout opgetreden: ${error.text}<br>
+                    Controleer de console (F12) voor meer info.
+                `;
+                document.getElementById('resultMessage').style.display = 'block';
+            }, 300);
         });
     } else {
-        resultTextElement.innerHTML = `
-            U wordt teruggeleid naar het formulier om uw antwoorden te controleren.
-        `;
-        document.getElementById('resultMessage').style.display = 'block';
+        // Verberg loading screen (voor de zekerheid)
+        loadingScreen.classList.add('hidden');
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            resultTextElement.innerHTML = `
+                U wordt teruggeleid naar het formulier om uw antwoorden te controleren.
+            `;
+            document.getElementById('resultMessage').style.display = 'block';
+        }, 300);
     }
 }
 
