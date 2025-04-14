@@ -353,8 +353,16 @@ function handleSubmit(isConfirmed) {
     document.getElementById('confirmationModal').style.display = 'none';
 
     if (isConfirmed) {
-        // Toon loading screen zodra verzending begint
-        loadingScreen.style.display = 'flex';
+        // Toon loading screen DIRECT met requestAnimationFrame om rendering te forceren
+        requestAnimationFrame(() => {
+            loadingScreen.style.transition = 'none'; // Schakel CSS transitie tijdelijk uit
+            loadingScreen.style.display = 'flex';
+            loadingScreen.style.opacity = '1'; // Forceer zichtbaarheid
+            // Herstel transitie na tonen voor latere fade-out
+            setTimeout(() => {
+                loadingScreen.style.transition = 'opacity 0.3s ease';
+            }, 0);
+        });
 
         const form = document.getElementById('insurance-form');
         const formData = new FormData(form);
