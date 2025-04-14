@@ -15,6 +15,11 @@
     </script>
 </head>
 <body>
+    <!-- Loading screen voor pagina laden -->
+    <div id="page-loading-screen">
+        <div class="page-loader"></div>
+    </div>
+
     <div class="logo">
         <img src="AfbeeldingDekker.png" alt="Dekkerautoverzekering">
         <h2>Aanvraagformulier</h2>
@@ -468,7 +473,7 @@
                 <button type="button" class="next-button" id="nextBtn" onclick="nextPrev(1)">Volgende</button>
             </div>
         </form>
-        <!-- Loading Screen -->
+        <!-- Bestaande Loading Screen -->
         <div id="loadingScreen" class="loading-screen" style="display: none;">
             <div class="loader"></div>
             <p>Uw aanvraag wordt verwerkt, u wordt doorgestuurd...</p>
@@ -477,5 +482,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <script src="script.js?v=1"></script>
+    <!-- Inline JS alleen voor pagina loading screen -->
+    <script>
+        // Pagina loading screen
+        window.addEventListener('load', function() {
+            const pageLoadingScreen = document.getElementById('page-loading-screen');
+            setTimeout(() => {
+                pageLoadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    pageLoadingScreen.style.display = 'none';
+                }, 300);
+            }, 500);
+        });
+    </script>
 </body>
 </html>
