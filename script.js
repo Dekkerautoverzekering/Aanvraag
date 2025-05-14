@@ -1,6 +1,52 @@
 let currentStep = 0;
 showStep(currentStep);
 
+// Initialize SignaturePad globally
+var canvas = document.getElementById('signature-pad');
+var signaturePad = new SignaturePad(canvas);
+
+// Functie om handtekening te uploaden naar Cloudinary
+async function uploadSignature(signatureBase64) {
+    try {
+        // Log de Base64-string om te controleren
+        console.log('Base64 handtekening:', signatureBase64.substring(0, 50) + '...');
+        if (!signatureBase64.startsWith('data:image/png;base64,')) {
+            throw new Error('Ongeldige Base64-string: Verwacht data:image/png;base64,');
+        }
+
+        // Genereer een unieke public_id zonder slashes
+        const publicId = 'handtekening_' + Date.now();
+
+        const response = await fetch('https://api.cloudinary.com/v1_1/dqvftnitv/image/upload', {
+            method: 'POST',
+            body: JSON.stringify({
+                file: signatureBase64,
+                upload_preset: 'signatureupload', // Nieuwe preset
+                public_id: publicId
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        // Log de HTTP-status
+        console.log('Cloudinary response status:', response.status, response.statusText);
+
+        const result = await response.json();
+        console.log('Cloudinary response:', result);
+
+        if (result.secure_url) {
+            console.log('Handtekening geüpload naar Cloudinary:', result.secure_url);
+            return result.secure_url;
+        } else {
+            throw new Error(`Cloudinary upload mislukt: Geen secure_url ontvangen. Fout: ${JSON.stringify(result.error || result)}`);
+        }
+    } catch (error) {
+        console.error('Fout bij het uploaden van handtekening naar Cloudinary:', error);
+        throw error;
+    }
+}
+
 function showStep(n) {
     let steps = document.getElementsByClassName("step-content");
     for (let i = 0; i < steps.length; i++) {
@@ -26,7 +72,7 @@ function nextPrev(n) {
     steps[currentStep].style.display = 'none';
     currentStep = currentStep + n;
     if (currentStep >= steps.length) {
-        return false; // Geen standaard submit meer
+        return false;
     }
     showStep(currentStep);
 }
@@ -39,9 +85,7 @@ function updateStepIndicator(n) {
     indicators[n].classList.add("active-step");
 }
 
-// Signature Pad
-var canvas = document.getElementById('signature-pad');
-var signaturePad = new SignaturePad(canvas);
+// SignaturePad clear knop
 var clearButton = document.getElementById('clear-signature');
 clearButton.addEventListener('click', function() {
     signaturePad.clear();
@@ -260,7 +304,7 @@ aantalBelanghebbendenInput.addEventListener('input', updateBelanghebbendenInfo);
 
 toggleZakelijkInfo();
 
-// Additional info toggle logica
+// Extra info toggle logica
 document.addEventListener('DOMContentLoaded', function() {
     function toggleAdditionalInfo(radioGroupName, infoDivId) {
         const radios = document.getElementsByName(radioGroupName);
@@ -287,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Stel de standaarddatum in voor "datum-aanvraag"
     const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0]; // Formaat: YYYY-MM-DD
+    const formattedDate = today.toISOString().split('T')[0];
     document.getElementById('datum-aanvraag').value = formattedDate;
 });
 
@@ -319,7 +363,6 @@ function showModal() {
             if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
                 continue;
             }
-            // Overslaan van dekking-details als het niet 'anders' is
             if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
                 continue;
             }
@@ -347,18 +390,16 @@ function closeModal() {
     document.getElementById('resultMessage').style.display = 'none';
 }
 
-function handleSubmit(isConfirmed) {
+async function handleSubmit(isConfirmed) {
     const loadingScreen = document.getElementById('loadingScreen');
     const resultTextElement = document.getElementById('resultText');
     document.getElementById('confirmationModal').style.display = 'none';
 
     if (isConfirmed) {
-        // Toon loading screen DIRECT met requestAnimationFrame om rendering te forceren
         requestAnimationFrame(() => {
-            loadingScreen.style.transition = 'none'; // Schakel CSS transitie tijdelijk uit
+            loadingScreen.style.transition = 'none';
             loadingScreen.style.display = 'flex';
-            loadingScreen.style.opacity = '1'; // Forceer zichtbaarheid
-            // Herstel transitie na tonen voor latere fade-out
+            loadingScreen.style.opacity = '1';
             setTimeout(() => {
                 loadingScreen.style.transition = 'opacity 0.3s ease';
             }, 0);
@@ -370,20 +411,18 @@ function handleSubmit(isConfirmed) {
         const email = formData.get('email');
         const aanschaf = formData.get('aanschaf');
 
-        // Debug: controleer of email correct is ingevuld
-        console.log("Emailadres uit formulier:", email);
-        if (!email) {
-            console.error("FOUT: Geen e-mailadres opgehaald uit het formulier!");
+        console.log("E-mailadres uit formulier:", email);
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            console.error("FOUT: Ongeldig of ontbrekend e-mailadres!");
             loadingScreen.classList.add('hidden');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
-                resultTextElement.innerHTML = 'FOUT: Geen e-mailadres opgegeven. Vul een geldig e-mailadres in.';
+                resultTextElement.innerHTML = 'FOUT: Geen geldig e-mailadres opgegeven. Vul een geldig e-mailadres in.';
                 document.getElementById('resultMessage').style.display = 'block';
             }, 300);
             return;
         }
 
-        // Verzamel dekking specifiek voor e-mail
         let dekkingText = '';
         const dekkingAnders = formData.get('dekking') === 'anders';
         if (dekkingAnders) {
@@ -415,27 +454,45 @@ function handleSubmit(isConfirmed) {
             }
         }
 
-        console.log("Start verzending...");
+        try {
+            let signatureUrl = '';
+            if (!signaturePad.isEmpty()) {
+                const signatureBase64 = signaturePad.toDataURL('image/png');
+                try {
+                    signatureUrl = await uploadSignature(signatureBase64);
+                    emailBody += `\nHandtekening: Bekijk de handtekening via deze link: ${signatureUrl}\n`;
+                    document.getElementById('signature_url').value = signatureUrl;
+                } catch (uploadError) {
+                    console.warn('Handtekening upload mislukt, e-mail wordt verzonden zonder handtekening:', uploadError);
+                    emailBody += `\nHandtekening: Kon niet worden geüpload vanwege een fout: ${uploadError.message}\n`;
+                }
+            } else {
+                emailBody += `\nHandtekening: Niet aanwezig\n`;
+            }
 
-        emailjs.send("service_37glay9", "template_igkvytp", {
-            message: emailBody,
-            reply_to: email
-        })
-        .then(() => {
+            console.log("E-mailinhoud:", emailBody);
+            // Log de EmailJS-parameters
+            const emailParams = {
+                message: emailBody,
+                reply_to: email,
+                signature_url: signatureUrl || ''
+            };
+            console.log("EmailJS parameters:", emailParams);
+
+            console.log("Start verzending...");
+            await emailjs.send("service_37glay9", "template_igkvytp", emailParams);
+
             console.log("Service e-mail succesvol verzonden");
-            return emailjs.send("service_37glay9", "template_vjmqckj", {
+            await emailjs.send("service_37glay9", "template_vjmqckj", {
                 to_email: email,
-                email: email, // Fallback voor als template 'email' verwacht
+                email: email,
                 message: "Bedankt voor uw aanvraag!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
             });
-        })
-        .then(() => {
+
             console.log("Klant e-mail succesvol verzonden");
-            // Verberg loading screen met fade-out
             loadingScreen.classList.add('hidden');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
-                // Toon succesbericht
                 resultTextElement.innerHTML = `
                     <strong>Uw aanvraag is verzonden!</strong><br><br>
                     Wij danken u voor het vertrouwen.<br>
@@ -446,32 +503,27 @@ function handleSubmit(isConfirmed) {
                 document.getElementById('insurance-form').style.display = 'none';
                 document.querySelector('.navigation-buttons').style.display = 'none';
 
-                // Toon loading screen opnieuw voor redirect
                 setTimeout(() => {
                     loadingScreen.style.display = 'flex';
                     loadingScreen.classList.remove('hidden');
-                    // Redirect naar www.klaasvis.nl na 3 seconden
                     setTimeout(() => {
                         window.location.href = 'https://www.klaasvis.nl';
                     }, 3000);
-                }, 2000); // Laat succesbericht 2 seconden zien
+                }, 2000);
             }, 300);
-        })
-        .catch((error) => {
+        } catch (error) {
             console.error("Fout bij verzenden:", error);
-            // Verberg loading screen met fade-out
             loadingScreen.classList.add('hidden');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 resultTextElement.innerHTML = `
-                    Er is een fout opgetreden: ${error.text}<br>
+                    Er is een fout opgetreden: ${error.message || error}<br>
                     Controleer de console (F12) voor meer info.
                 `;
                 document.getElementById('resultMessage').style.display = 'block';
             }, 300);
-        });
+        }
     } else {
-        // Verberg loading screen (voor de zekerheid)
         loadingScreen.classList.add('hidden');
         setTimeout(() => {
             loadingScreen.style.display = 'none';
