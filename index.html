@@ -6,7 +6,7 @@
     <title>Aanvraagformulier Dekkerautoverzekering</title>
     <link rel="icon" type="image/png" href="Logo.png">
     <link rel="stylesheet" href="styles.css?v=1">
-    <!-- EmailJS SDK toevoegen -->
+    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
@@ -27,13 +27,16 @@
 
     <div class="form-container">
         <form id="insurance-form">
+            <!-- Verborgen invoerveld om de handtekening-URL op te slaan -->
+            <input type="hidden" id="signature_url" name="signature_url">
+            
             <div class="step-indicators">
                 <div class="step active-step" id="step1-indicator">Gegevens verzekeringnemer</div>
                 <div class="step" id="step2-indicator">Gegevens auto</div>
                 <div class="step" id="step4-indicator">Slotvragen</div>
                 <div class="step" id="step5-indicator">Ondertekenen en indienen</div>
             </div>
-            <!-- Step 1 -->
+            <!-- Stap 1 -->
             <div class="step-content active" id="step1">
                 <div class="form-group">
                     <label for="offertenummer">Offertenummer:</label>
@@ -64,7 +67,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Postcode_en_huisnummer">Postcode en huisnummer:</label>
-                        <input type="text" id="Postcode_en_huisnummer" name="Postcode en huisnummer" autocomplete="postal-code">
+                        <input type="text" id="Postcode_en_huisnummer" name="Postcode_en_huisnummer" autocomplete="postal-code">
                     </div>
                     <div class="form-group">
                         <label for="geboortedatum">Geboortedatum:</label>
@@ -92,9 +95,8 @@
                     <input type="text" id="iban" name="iban" autocomplete="iban" required>
                 </div>
             </div>
-            <div class="footer-logo">
-            </div>
-            <!-- Step 2 -->
+            <div class="footer-logo"></div>
+            <!-- Stap 2 -->
             <div class="step-content" id="step2">
                 <div class="form-group">
                     <label for="ingangsdatum">Ingangsdatum verzekering:</label>
@@ -176,7 +178,7 @@
                 <div id="schadevrije-jaren-info" class="conditional hidden">
                     <div class="form-group">
                         <label for="aantal-schadevrije-jaren">Aantal schadevrije jaren:</label>
-                        <input type="Number" id="aantal-schadevrije-jaren" name="aantal-schadevrije-jaren" autocomplete="off">
+                        <input type="number" id="aantal-schadevrije-jaren" name="aantal-schadevrije-jaren" autocomplete="off">
                     </div>
                 </div>
                 <div id="opzegservice-container" class="hidden">
@@ -305,7 +307,7 @@
                     <div id="belanghebbenden-info"></div>
                 </div>
             </div>
-            <!-- Step 4 -->
+            <!-- Stap 4 -->
             <div class="step-content" id="step4">
                 <div class="form-group">
                     <div class="form-group">
@@ -403,7 +405,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Step 5 -->
+            <!-- Stap 5 -->
             <div class="step-content" id="step5">
                 <div class="form-group">
                     <label for="ondertekenaar">Voorletter(s) en achternaam:</label>
@@ -467,7 +469,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Navigation Buttons -->
+            <!-- Navigatieknoppen -->
             <div class="navigation-buttons text-center">
                 <button type="button" class="prev-button" id="prevBtn" onclick="nextPrev(-1)">Vorige</button>
                 <button type="button" class="next-button" id="nextBtn" onclick="nextPrev(1)">Volgende</button>
